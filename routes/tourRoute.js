@@ -3,6 +3,7 @@ const route = express.Router();
 const tourController = require('../controllers/tourController');
 
 // midldeware
+
 route.param('id', tourController.checkID);
 route
   .get('/:id?', tourController.getAllToursOrTour)
