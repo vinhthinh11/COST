@@ -13,6 +13,12 @@ exports.checkID = (req, res, next, val) => {
   if (tours.findIndex(tour => tour.id === val) !== -1) return next();
   res.status(404).json({ message: 'Invalid ID, can not find the ID tour' });
 };
+// kiem tra validation cua tua
+exports.tourValidtaion = (req, res, next) => {
+  //  se kiem tra tronig phan body cua rea neu hop le thi se next. hien gio chua co form nen tam thoi all req se valid
+  console.log('All tours now is valid Hi hi');
+  next();
+};
 exports.getAllToursOrTour = (req, res) => {
   const id = +req.params.id;
   if (!id) {
