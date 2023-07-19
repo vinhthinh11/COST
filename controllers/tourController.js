@@ -6,6 +6,11 @@ const saveTour = (path, content, cb) => {
     cb.status(201).json({ message: 'Luu file thanh cong', data: cb.data });
   });
 };
+exports.checkID = (req, res, next, val) => {
+  // kiem tra thu ID cua nguoi dung co hop le khong, neu hop le thi cho next() khong thi dung o day va tra lai res la khong hop le
+  if (tours.findIndex(tour => tour.id === val) !== -1) return next();
+  res.json({ message: 'Invalid ID, wrong user ID' });
+};
 exports.getAllToursOrTour = (req, res) => {
   const id = +req.params.id;
   if (!id) {
