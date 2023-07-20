@@ -6,6 +6,7 @@ const morgan = require('morgan');
 // All middleware go here
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(express.static(`${__dirname}/public`));
 
 // cau truc cua 1 middleware
 const tourRoute = require('./routes/tourRoute');
