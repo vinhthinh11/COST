@@ -1,11 +1,12 @@
 // import cac model can thiet de chay chuong trinh
 const express = require('express');
+
 const app = express();
 const morgan = require('morgan');
 
 // All middleware go here
 app.use(express.json());
-if (process.env.NODE_ENV == 'developmen') {
+if (process.env.NODE_ENV === 'developmen') {
   app.use(morgan('dev'));
 }
 app.use(express.static(`${__dirname}/public`));
