@@ -5,9 +5,7 @@
   "main": "app.js",
   "nodemonConfig": {
     "ext": "js",
-    "ignore": [
-      "server.js"
-    ],
+    "ignore": [],
     "delay": "2"
   },
   "scripts": {

@@ -6,11 +6,8 @@ const databaseConnectionString = process.env.DATABASE_CONNECTION.replace(
   '<password>',
   process.env.PASSWORD,
 );
-mongoose
-  .connect(databaseConnectionString, { useNewUrlParser: true })
-  .then(() => {
-    console.log('Ke noi thanh cong');
-  });
+mongoose.connect(databaseConnectionString, { useNewUrlParser: true });
+
 const app = require('./app');
 
 app.listen(process.env.PORT || 3000, () => {
