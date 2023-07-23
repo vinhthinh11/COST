@@ -6,7 +6,7 @@ const morgan = require('morgan');
 
 // All middleware go here
 app.use(express.json());
-if (process.env.NODE_ENV === 'developmen') {
+if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 app.use(express.static(`${__dirname}/public`));

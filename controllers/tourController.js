@@ -1,9 +1,11 @@
 const Tour = require('../Models/toursSchema');
 
 exports.getAllToursOrTour = async (req, res) => {
+  const { page, sort, limit, fields, ...query } = req.query;
+  console.log(page, sort, limit, fields, query);
   try {
-    const tour = await Tour.find();
-    res.status(200).json(tour);
+    const tour = await Tour.find(query);
+    res.status(200).json({ amount: tour.length, tour });
   } catch (err) {
     res.status(400).json(err);
   }
