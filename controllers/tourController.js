@@ -33,4 +33,11 @@ exports.updateTour = async (req, res) => {
     res.status(404).json(error);
   }
 };
-exports.deleteTour = (req, res) => {};
+exports.deleteTour = async (req, res) => {
+  try {
+    const tour = await Tour.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'xoa tour thanh cong', tour });
+  } catch (error) {
+    res.status(404).json(error);
+  }
+};
