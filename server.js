@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const app = require('./app');
 
 dotenv.config({ path: './config.env' });
 const databaseConnectionString = process.env.DATABASE_CONNECTION.replace(
@@ -8,8 +9,7 @@ const databaseConnectionString = process.env.DATABASE_CONNECTION.replace(
 );
 mongoose.connect(databaseConnectionString, { useNewUrlParser: true });
 
-const app = require('./app');
-
 app.listen(process.env.PORT || 3000, () => {
+  // eslint-disable-next-line no-console
   console.log('server is running');
 });
