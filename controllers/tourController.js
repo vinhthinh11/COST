@@ -9,10 +9,11 @@ exports.getAllToursOrTour = async (req, res) => {
   }
 };
 exports.addTour = (req, res) => {
-  const { name, rating, price } = req.body;
-  Tour.create({ name, rating, price })
+  Tour.create(req.body)
     .then((doc) => {
-      res.status(200).json({ message: 'Tao tour moi thanh cong', doc });
+      res
+        .status(200)
+        .json({ message: 'A tour was susscessfully created', doc });
     })
     .catch((err) => res.status(404).json({ message: err }));
 };
