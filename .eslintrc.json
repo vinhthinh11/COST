@@ -10,24 +10,24 @@
         "endOfLine": "auto"
       }
     ],
+    "node/no-unsupported-features/es-syntax": [
+      "error",
+      {
+        "version": ">=8.0.0",
+        "ignores": ["restSpreadProperties"]
+      }
+    ],
     "spaced-comment": "off",
     "no-console": "warn",
     "consistent-return": "off",
     "func-names": "off",
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "ecmaVersion": 9,
-      "ecmaFeatures": {
-        "jsx": true
-      },
-      "object-shorthand": "off",
-      "no-process-exit": "off",
-      "no-param-reassign": "off",
-      "no-return-await": "off",
-      "no-underscore-dangle": "off",
-      "class-methods-use-this": "off",
-      "prefer-destructuring": ["error", { "object": false, "array": false }],
-      "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|val" }]
-    }
+    "object-shorthand": "off",
+    "no-process-exit": "off",
+    "no-param-reassign": "off",
+    "no-return-await": "off",
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
+    "prefer-destructuring": ["error", { "object": false, "array": false }],
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|val" }]
   }
 }
