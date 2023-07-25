@@ -6,6 +6,7 @@ const tourController = require('../controllers/tourController');
 // midldeware
 
 route.get('/top-5-rating', tourController.getTop5Rating);
+route.get('/get-tours-stats', tourController.getTourStats);
 route
   .get('/', tourController.getAllToursOrTour)
   .post('/', tourController.addTour);

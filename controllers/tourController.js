@@ -1,25 +1,15 @@
 const Tour = require('../Models/toursSchema');
+const APIFeature = require('../utils/ApiFreature');
 
 exports.getAllToursOrTour = async (req, res) => {
-  const { page, sort, limit, fields, ...query } = req.query;
+  const { page, sort, limit, fields, ...queryString } = req.query;
   try {
-    const queryAwatiy = Tour.find(query);
-    // xắp sếp
-    if (sort) {
-      const sortBy = sort.split(',').join(' ');
-      queryAwatiy.sort(sortBy);
-    }
-    // chon fields to show
-    if (fields) {
-      const fieldsLimit = fields.split(',').join(' ');
-      queryAwatiy.select(fieldsLimit);
-    } else {
-      queryAwatiy.select('-__v');
-    }
-    // pagination (phan trang)
-    const itemSkip = ((page || 1) - 1) * (limit || 10);
-    queryAwatiy.skip(itemSkip).limit(limit || 10);
-    const tour = await queryAwatiy;
+    const feature = new APIFeature(Tour.find(), req.query)
+      .filter()
+      .sortPro()
+      .paginate()
+      .getField();
+    const tour = await feature.query;
     res.status(200).json({ amount: tour.length, tour });
   } catch (err) {
     res.status(400).json(err);
@@ -63,6 +53,29 @@ exports.deleteTour = async (req, res) => {
   try {
     const tour = await Tour.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: 'xoa tour thanh cong', tour });
+  } catch (error) {
+    res.status(404).json(error);
+  }
+};
+exports.getTourStats = async (req, res) => {
+  try {
+    const stats = await Tour.aggregate([
+      {
+        $match: { ratingsAverage: { $gte: 4.5 } },
+      },
+      // {
+      //   $group: {
+      //     _id: '$difficulty',
+      //     totalTour: { $sum: 1 },
+      //     totalRating: { $sum: '$ratingsQuantity' },
+      //     avgRating: { $avg: '$ratingsAverage' },
+      //     avgPrice: { $avg: '$price' },
+      //     minPrice: { $min: '$price' },
+      //     maxPrice: { $max: '$price' },
+      //   },
+      // },
+    ]);
+    res.status(200).json(stats);
   } catch (error) {
     res.status(404).json(error);
   }

@@ -27,6 +27,7 @@
     "no-return-await": "off",
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",
+    "no-redeclare": ["error", { "builtinGlobals": true }],
     "prefer-destructuring": ["error", { "object": false, "array": false }],
     "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|val" }]
   }
