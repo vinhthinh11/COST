@@ -7,6 +7,7 @@ const tourController = require('../controllers/tourController');
 
 route.get('/top-5-rating', tourController.getTop5Rating);
 route.get('/get-tours-stats', tourController.getTourStats);
+route.get('/get-monthly-plan/:year', tourController.getMonthlyPlan);
 route
   .get('/', tourController.getAllToursOrTour)
   .post('/', tourController.addTour);
