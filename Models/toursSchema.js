@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const schema = new mongoose.Schema(
   {
@@ -8,6 +9,7 @@ const schema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    slug: String,
     duration: {
       type: Number,
       required: [true, 'Tour must has duration'],
@@ -56,8 +58,34 @@ const schema = new mongoose.Schema(
     priceDiscount: {
       type: Number,
     },
+    secretTour: { type: Boolean, default: false },
   },
-  { id: false },
+  {
+    id: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
 );
+schema.virtual('durationWeeks').get(function () {
+  return this.duration / 7;
+});
+// document middle ware run before save
+schema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
+// schema.pre('save', (next) => {
+//   console.log('will save document ...');
+//   next();
+// });
+// schema.post('save', (doc, next) => {
+//   console.log(doc);
+//   next();
+// });
+// QUERY middleware ( hay con goi la hook)
+schema.pre(/^find/, function (next) {
+  this.find({ secretTour: { $ne: true } });
+  next();
+});
 const toursSchema = mongoose.model('Tours', schema);
 module.exports = toursSchema;
