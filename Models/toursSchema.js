@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const validator = require('validator');
 
 const schema = new mongoose.Schema(
   {
@@ -8,6 +9,7 @@ const schema = new mongoose.Schema(
       required: [true, 'Tour must has name'],
       unique: true,
       trim: true,
+      validate: [validator.isAlpha, 'Name of tour only contain apha charater'],
     },
     slug: String,
     duration: {
