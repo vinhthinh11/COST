@@ -87,5 +87,10 @@ schema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
   next();
 });
+// AGREGATION middleware function(hook)
+schema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  next();
+});
 const toursSchema = mongoose.model('Tours', schema);
 module.exports = toursSchema;
