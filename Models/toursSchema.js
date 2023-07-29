@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const validator = require('validator');
 
 const schema = new mongoose.Schema(
   {
@@ -9,7 +8,7 @@ const schema = new mongoose.Schema(
       required: [true, 'Tour must has name'],
       unique: true,
       trim: true,
-      validate: [validator.isAlpha, 'Name of tour only contain apha charater'],
+      minLength: [10, 'too short'],
     },
     slug: String,
     duration: {
@@ -23,6 +22,10 @@ const schema = new mongoose.Schema(
     difficulty: {
       type: String,
       required: [true, 'Tour must has difficult'],
+      enum: {
+        values: ['easy', 'medium', 'difficult'],
+        message: '{VALUE} is not supported',
+      },
     },
     ratingsAverage: {
       type: Number,
@@ -68,7 +71,7 @@ const schema = new mongoose.Schema(
     toObject: { virtuals: true },
   },
 );
-schema.virtual('durationWeeks').get(function () {
+schema.virtual('durationWeeks').get(function (next) {
   return this.duration / 7;
 });
 // document middle ware run before save

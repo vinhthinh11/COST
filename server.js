@@ -10,7 +10,21 @@ const databaseConnectionString = process.env.DATABASE_CONNECTION.replace(
 );
 mongoose.connect(databaseConnectionString, { useNewUrlParser: true });
 
-app.listen(process.env.PORT || 3000, () => {
+const server = app.listen(process.env.PORT || 3000, () => {
   // eslint-disable-next-line no-console
   console.log('server is running');
+  console.log(process.env.NODE_ENV);
+});
+// xy ly unhandledRejection
+process.on('unhandledRejection', (err) => {
+  console.log(err);
+  server.close(() => {
+    process.exit(1);
+  });
+});
+process.on('uncaughtException', (err) => {
+  console.log(err);
+  server.close(() => {
+    process.exit(1);
+  });
 });

@@ -1,13 +1,6 @@
 const fs = require('fs');
 
 const users = JSON.parse(fs.readFileSync('./dev-data/data/users.json'));
-const saveUser = (path, content, cb) => {
-  fs.writeFile(path, JSON.stringify(content), (err) => {
-    if (err)
-      cb.status(400).json({ message: 'ERRO!!Luu file khong thanh cong' });
-    cb.status(201).json({ message: 'Luu file thanh cong', data: cb.data });
-  });
-};
 
 //function cho cac route
 exports.getAllUser = (req, res) => {
