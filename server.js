@@ -13,16 +13,17 @@ mongoose.connect(databaseConnectionString, { useNewUrlParser: true });
 const server = app.listen(process.env.PORT || 3000, () => {
   // eslint-disable-next-line no-console
   console.log('server is running');
-  console.log(process.env.NODE_ENV);
 });
 // xy ly unhandledRejection
 process.on('unhandledRejection', (err) => {
+  // eslint-disable-next-line no-console
   console.log(err);
   server.close(() => {
     process.exit(1);
   });
 });
 process.on('uncaughtException', (err) => {
+  // eslint-disable-next-line no-console
   console.log(err);
   server.close(() => {
     process.exit(1);
