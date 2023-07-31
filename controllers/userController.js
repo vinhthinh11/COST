@@ -1,27 +1,24 @@
-const fs = require('fs');
-
-const users = JSON.parse(fs.readFileSync('./dev-data/data/users.json'));
+const User = require('../Models/userSchema');
+const catchAsync = require('../utils/catchAsync');
 
 //function cho cac route
-exports.getAllUser = (req, res) => {
-  res.status(200).json({ message: 'This route was not defined yet' });
-};
+exports.getAllUser = catchAsync(async (req, res) => {
+  const user = await User.find();
+  res.status(200).json({ message: 'Get all user successed', user });
+});
 exports.createUser = (req, res) => {
   res.status(200).json({ message: 'This route was not defined yet' });
 };
 exports.updateUser = (req, res) => {
-  const userId = req.params.id;
-  const user = users.find((u) => u.id === userId);
   res.status(200).json({ message: 'This route was not defined yet' });
 };
 exports.deleteUser = (req, res) => {
-  const userId = req.params.id;
-  const user = users.find((u) => u.id === userId);
-
   res.status(200).json({ message: 'This route was not defined yet' });
 };
-exports.getUser = (req, res) => {
-  const userId = req.params.id;
-  const user = users.find((u) => u._id === userId);
-  res.status(200).json({ message: 'This route was not defined yet' });
+exports.getUser = async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) res.status(200).json({ message: 'tim thay user thanh cong', user });
+  else {
+    res.status(404).json({ message: 'Loi ' });
+  }
 };
