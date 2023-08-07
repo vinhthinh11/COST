@@ -1,9 +1,11 @@
 const User = require('../Models/userSchema');
+const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 
 //function cho cac route
 exports.getAllUser = catchAsync(async (req, res) => {
   const user = await User.find();
+  if (user.length === 0) throw new AppError(400, 'User database is empty');
   res.status(200).json({ message: 'Get all user successed', user });
 });
 exports.createUser = (req, res) => {

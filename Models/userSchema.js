@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
@@ -15,6 +16,11 @@ const user = new mongoose.Schema({
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Invailid email'],
+  },
+  role: {
+    type: String,
+    enum: ['user', 'tour-guide', 'lead-guide', 'admin'],
+    default: 'user',
   },
   password: {
     type: String,
@@ -34,12 +40,23 @@ const user = new mongoose.Schema({
   photo: {
     type: String,
   },
+  resetPasswordToken: { type: String },
+  exprirePasswordToken: { type: Date },
 });
-const userSchema = mongoose.model('User', user);
-user.pre('save', function (next) {
-  if (!this.isModified('password')) return next;
-  this.password = bcrypt.hash(this.password, 12);
+user.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
   this.passwordConfirm = undefined;
   next();
 });
+user.methods.createPasswordToken = function () {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  this.resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+  this.exprirePasswordToken = Date.now() + 10 * 60 * 1000;
+  return resetToken;
+};
+const userSchema = mongoose.model('User', user);
 module.exports = userSchema;

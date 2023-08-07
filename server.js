@@ -1,3 +1,4 @@
+const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
@@ -6,7 +7,7 @@ const app = require('./app');
 
 const databaseConnectionString = process.env.DATABASE_CONNECTION.replace(
   '<password>',
-  process.env.PASSWORD,
+  process.env.PASSWORD
 );
 mongoose.connect(databaseConnectionString, { useNewUrlParser: true });
 
@@ -15,14 +16,14 @@ const server = app.listen(process.env.PORT || 3000, () => {
   console.log('server is running');
 });
 // xy ly unhandledRejection
-process.on('unhandledRejection', (err) => {
+process.on('unhandledRejection', err => {
   // eslint-disable-next-line no-console
   console.log(err);
   server.close(() => {
     process.exit(1);
   });
 });
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', err => {
   // eslint-disable-next-line no-console
   console.log(err);
   server.close(() => {
