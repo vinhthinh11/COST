@@ -1,4 +1,3 @@
-const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 

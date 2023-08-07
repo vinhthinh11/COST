@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../Models/userSchema');
@@ -75,6 +76,25 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     res.status(400).json({ message: 'gui mail khong thanh cong', err });
   }
 });
-exports.resetPassword = (req, res, next) => {
-  next();
-};
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  // 1> lay token from url
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+  // 2.tu token di tim user dua theo token( chua hay lam)
+  const user = await User.findOne({
+    resetPasswordToken: hashedToken,
+    exprirePasswordToken: { $gt: Date.now() },
+  });
+  if (!user)
+    return next(new AppError(402, 'User dont exist or time is expired'));
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  user.resetPasswordToken = null;
+  user.exprirePasswordToken = null;
+  await user.save();
+  const token = createJWTToken(user.id);
+
+  res.status(200).json({ message: 'Doi mat khau thanh cong', token });
+});
