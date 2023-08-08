@@ -3,6 +3,10 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const express = require('express');
 const morgan = require('morgan');
+const mongooseSanitize = require('express-mongo-sanitize');
+const hpp = require('hpp');
+const xss = require('xss-clean');
+
 const AppError = require('./utils/AppError');
 const ErrorGlobalHandler = require('./controllers/ErrorGlobalHandler');
 
@@ -25,12 +29,13 @@ app.use('/api', limmiter);
 // body parse( reading data from body)
 app.use(express.json({ limit: '10kb' }));
 // data sanitization again noSQL injection
-
+app.use(mongooseSanitize());
 // data sanitization again XSS injection
-
+app.use(xss());
+// prevent polution
+app.use(hpp({ whitelist: ['duration'] }));
 // serving static files
 app.use(express.static(`${__dirname}/public`));
-
 // cau truc cua 1 middleware
 const tourRoute = require('./routes/tourRoute');
 const userRoute = require('./routes/userRoute');
