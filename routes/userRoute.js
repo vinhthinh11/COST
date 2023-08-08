@@ -19,7 +19,7 @@ route.delete('/deleteMe', authController.protect, userController.deleteMe);
 route
   .route('/')
   .get(
-    authController.protect,
+    // authController.protect,
     // authController.restrict('admin'),
     userController.getAllUser
   )
