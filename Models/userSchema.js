@@ -26,6 +26,7 @@ const user = new mongoose.Schema({
     type: String,
     required: true,
     minlength: [8, 'Password too short'],
+    select: false,
   },
   passwordConfirm: {
     type: String,
@@ -36,17 +37,27 @@ const user = new mongoose.Schema({
       },
       message: 'password and comfirmpassword not match second time',
     },
+    select: false,
   },
   photo: {
     type: String,
   },
-  resetPasswordToken: { type: String },
-  exprirePasswordToken: { type: Date },
+  resetPasswordToken: { type: String, select: false },
+  exprirePasswordToken: { type: Date, select: false },
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
 });
 user.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
   this.passwordConfirm = undefined;
+  next();
+});
+user.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
   next();
 });
 user.methods.createPasswordToken = function () {
@@ -57,6 +68,11 @@ user.methods.createPasswordToken = function () {
     .digest('hex');
   this.exprirePasswordToken = Date.now() + 10 * 60 * 1000;
   return resetToken;
+};
+user.methods.deleteMe = async function () {
+  this.active = false;
+  await this.save();
+  return this;
 };
 const userSchema = mongoose.model('User', user);
 module.exports = userSchema;

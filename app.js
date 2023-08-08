@@ -22,7 +22,9 @@ app.use('/api/v1/tours', tourRoute);
 app.use('/api/v1/user', userRoute);
 // nhung dia chi con lai thi thi se tra lai khong tim thay thong qua middleware
 app.all('*', (req, res, next) => {
-  next(new AppError(404, `khong tim thay dia chi cho duogn dan ${req.originalUrl}`));
+  next(
+    new AppError(404, `khong tim thay dia chi cho duogn dan ${req.originalUrl}`)
+  );
 });
 // error handling when next(err)
 app.use(ErrorGlobalHandler.ErrorHandler);

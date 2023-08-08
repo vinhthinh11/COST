@@ -12,6 +12,10 @@ function createJWTToken(payload) {
     expiresIn: process.env.JWT_EXPIRES_TIME,
   });
 }
+const createAndSendToken = (user, message, status, res) => {
+  const token = createJWTToken(user._id);
+  res.status(status).json({ message, user, token });
+};
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
@@ -19,20 +23,19 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
   });
-  const token = createJWTToken(newUser._id);
-  res.status(201).json({ message: 'Tao User thanh cong', newUser, token });
+  createAndSendToken(newUser, 'Tao user moi thanh cong', 201, res);
 });
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  const checkuser = await User.findOne({ email });
+  const checkuser = await User.findOne({ email }).select('+password');
+  if (!checkuser) throw new AppError(400, 'User not found');
   const checkpassword = await bcrypt.compare(password, checkuser.password);
-  if (!checkuser || !checkpassword) {
+  if (!checkpassword) {
     return res.json({ message: 'Ten dang nhap hoac mk sai' });
   }
-  const token = createJWTToken(checkuser._id);
-  res.json({ message: 'Dang nhap thanh cong', token, checkuser });
+  createAndSendToken(checkuser, 'Dang nhap thanh cong', 201, res);
 });
-// Middlerware
+// Middlerware protect kiem tra xem ban da dang nhap chua
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
   if (
@@ -41,14 +44,14 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(' ')[1];
   }
-  if (!token) next(new AppError(400, 'Truy cap khong hop le'));
+  if (!token)
+    next(new AppError(400, 'Ban chua dang nhap de thuc hien chuc nang'));
   const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
   const currentUser = await User.findById(decode.id);
   req.user = currentUser;
   next();
 });
-// Midllerware to check if user is authorization
+// Midllerware to check if user is authorization (co phai la admin khong)
 exports.restrict =
   (...roles) =>
   (req, res, next) => {
@@ -94,7 +97,21 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.resetPasswordToken = null;
   user.exprirePasswordToken = null;
   await user.save();
-  const token = createJWTToken(user.id);
+  createAndSendToken(user, 'Doi mat khau thanh cong', 200, res);
+});
 
-  res.status(200).json({ message: 'Doi mat khau thanh cong', token });
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  //1. kiem tra mat khau cu co match khong , neu match thi doi mat khau
+  const user = await User.findById(req.user._id).select('+password');
+  const checkpassword = await bcrypt.compare(
+    req.body.currPassword,
+    user.password
+  );
+  if (!checkpassword) {
+    return next(new AppError(404, 'Invalid password'));
+  }
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save();
+  createAndSendToken(user, 'Update password susscess', 200, res);
 });

@@ -19,7 +19,7 @@ route
   .delete(
     authController.protect,
     authController.restrict('admin', 'lead-guide'),
-    tourController.deleteTour,
+    tourController.deleteTour
   );
 module.exports = route;
 

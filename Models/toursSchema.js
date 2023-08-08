@@ -63,13 +63,13 @@ const schema = new mongoose.Schema(
     priceDiscount: {
       type: Number,
     },
-    secretTour: { type: Boolean, default: false },
+    secretTour: { type: Boolean, default: false, select: false },
   },
   {
     id: false,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  },
+  }
 );
 schema.virtual('durationWeeks').get(function (next) {
   return this.duration / 7;
