@@ -9,18 +9,18 @@ const envPath = path.join(__dirname, '../../config.env');
 dotenv.config({ path: envPath });
 const databaseConnectionString = process.env.DATABASE_CONNECTION.replace(
   '<password>',
-  process.env.PASSWORD,
+  process.env.PASSWORD
 );
 mongoose
   .connect(databaseConnectionString, { useNewUrlParser: true })
   // eslint-disable-next-line no-console
   .then(() => console.log('ket noi thanh cong'));
-const filePath = path.join(__dirname, 'tours-simple.json');
+const filePath = path.join(__dirname, 'tours.json');
 
 // // READFILE sync
 const tours = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 
-const importData = async (input) => {
+const importData = async input => {
   const schema = input === 'tour' ? Tour : User;
   try {
     await schema.create(tours);
@@ -32,7 +32,7 @@ const importData = async (input) => {
     console.log(error);
   }
 };
-const deletaData = async (input) => {
+const deletaData = async input => {
   const schema = input === 'tour' ? Tour : User;
   try {
     await schema.deleteMany();

@@ -24,7 +24,12 @@ exports.addTour = catchAsync(async (req, res, next) => {
     .json({ message: 'A tour was susscessfully created', newTour });
 });
 exports.findTour = catchAsync(async (req, res, next) => {
-  const doc = await Tour.findById(req.params.id);
+  const doc = await Tour.findById(req.params.id)
+    .populate({
+      path: 'guides',
+      select: '-__v -role',
+    })
+    .populate('reviews');
   if (!doc) {
     throw new AppError(404, "Can't find the tour");
   }

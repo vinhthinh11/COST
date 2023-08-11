@@ -14,7 +14,6 @@ module.exports = class APIFeature {
   }
 
   sortPro() {
-    console.log(this.query);
     const sortBy = this.sort.split(',').join(' ');
     this.query = this.query.sort(sortBy);
     return this;

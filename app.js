@@ -6,6 +6,10 @@ const morgan = require('morgan');
 const mongooseSanitize = require('express-mongo-sanitize');
 const hpp = require('hpp');
 const xss = require('xss-clean');
+// cau truc cua 1 middleware
+const tourRoute = require('./routes/tourRoute');
+const userRoute = require('./routes/userRoute');
+const reviewRoute = require('./routes/reviewRoute');
 
 const AppError = require('./utils/AppError');
 const ErrorGlobalHandler = require('./controllers/ErrorGlobalHandler');
@@ -36,13 +40,13 @@ app.use(xss());
 app.use(hpp({ whitelist: ['duration'] }));
 // serving static files
 app.use(express.static(`${__dirname}/public`));
-// cau truc cua 1 middleware
-const tourRoute = require('./routes/tourRoute');
-const userRoute = require('./routes/userRoute');
+
 // tourRoute xu ly
 app.use('/api/v1/tours', tourRoute);
 // userRoute xu ly
 app.use('/api/v1/user', userRoute);
+// useRoute xu ly review
+app.use('/api/v1/review', reviewRoute);
 // nhung dia chi con lai thi thi se tra lai khong tim thay thong qua middleware
 app.all('*', (req, res, next) => {
   next(

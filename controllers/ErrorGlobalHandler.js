@@ -33,9 +33,9 @@ function handlerDuplicateError(error) {
   const message = `'${error.keyValue.name}' is already existed`;
   return new AppError(401, message);
 }
-const handlerValidateError = (error) => {
+const handlerValidateError = error => {
   const errMess = Object.values(error.errors)
-    .map((el) => `${el.path} : ${el.message}`)
+    .map(el => `${el.path} : ${el.message}`)
     .join('. ');
   const message = `input validattion ${errMess}`;
   return new AppError(401, message);

@@ -64,6 +64,35 @@ const schema = new mongoose.Schema(
       type: Number,
     },
     secretTour: { type: Boolean, default: false, select: false },
+    startLocation: {
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+      },
+      coordinates: [Number],
+      address: String,
+      description: String,
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+        address: String,
+        description: String,
+        day: Number,
+      },
+    ],
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     id: false,
@@ -72,13 +101,24 @@ const schema = new mongoose.Schema(
   }
 );
 schema.virtual('durationWeeks').get(function (next) {
-  return this.duration / 7;
+  return this.duration ? this.duration / 7 : undefined;
 });
+schema.virtual('reviews', {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'tour',
+});
+
 // document middle ware run before save
 schema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
 });
+// schema.pre('save', async function (next) {
+//   const guidesPromise = this.guides.map(async id => await User.findById(id));
+//   this.guides = await Promise.all(guidesPromise);
+//   next();
+// });
 // schema.pre('save', (next) => {
 //   console.log('will save document ...');
 //   next();
