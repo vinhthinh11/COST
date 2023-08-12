@@ -44,9 +44,9 @@ app.use(express.static(`${__dirname}/public`));
 // tourRoute xu ly
 app.use('/api/v1/tours', tourRoute);
 // userRoute xu ly
-app.use('/api/v1/user', userRoute);
+app.use('/api/v1/users', userRoute);
 // useRoute xu ly review
-app.use('/api/v1/review', reviewRoute);
+app.use('/api/v1/reviews', reviewRoute);
 // nhung dia chi con lai thi thi se tra lai khong tim thay thong qua middleware
 app.all('*', (req, res, next) => {
   next(

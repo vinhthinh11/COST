@@ -1,18 +1,21 @@
 const express = require('express');
 
-const route = express.Router();
+const router = express.Router();
 const tourController = require('../controllers/tourController');
 const authController = require('../controllers/authController');
+const reviewRouter = require('./reviewRoute');
 
+// neu nhu gap dia chi nhu ben duoi thi khi di qua router URL se dc dieu huong sang ben reviewRouter de xu ly => ve
+router.use('/:tourId/reviews', reviewRouter);
 // midldeware
 
-route.get('/top-5-rating', tourController.getTop5Rating);
-route.get('/get-tours-stats', tourController.getTourStats);
-route.get('/get-monthly-plan/:year', tourController.getMonthlyPlan);
-route
+router.get('/top-5-rating', tourController.getTop5Rating);
+router.get('/get-tours-stats', tourController.getTourStats);
+router.get('/get-monthly-plan/:year', tourController.getMonthlyPlan);
+router
   .get('/', authController.protect, tourController.getAllToursOrTour)
   .post('/', tourController.addTour);
-route
+router
   .route('/:id')
   .get(tourController.findTour)
   .patch(tourController.updateTour)
@@ -21,6 +24,10 @@ route
     authController.restrict('admin', 'lead-guide'),
     tourController.deleteTour
   );
-module.exports = route;
+// router
+//   .route('/:tourId/reviews')
+//   .get(reviewController.getReview)
+//   .post(authController.protect, reviewController.addReview);
+module.exports = router;
 
 //

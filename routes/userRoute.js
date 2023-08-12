@@ -2,21 +2,21 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 
-const route = express.Router();
+const router = express.Router();
 // these routes under are for user controllers
-route.post('/signup', authController.signup);
-route.post('/login', authController.login);
-route.post('/forgotPassword', authController.forgotPassword);
-route.patch('/resetPassword/:token', authController.resetPassword);
-route.patch(
+router.post('/signup', authController.signup);
+router.post('/login', authController.login);
+router.post('/forgotPassword', authController.forgotPassword);
+router.patch('/resetPassword/:token', authController.resetPassword);
+router.patch(
   '/updatePassword',
   authController.protect,
   authController.updatePassword
 );
-route.patch('/updateMe', authController.protect, userController.updateMe);
-route.delete('/deleteMe', authController.protect, userController.deleteMe);
+router.patch('/updateMe', authController.protect, userController.updateMe);
+router.delete('/deleteMe', authController.protect, userController.deleteMe);
 //rote under herr is for Admin
-route
+router
   .route('/')
   .get(
     // authController.protect,
@@ -24,10 +24,11 @@ route
     userController.getAllUser
   )
   .post(userController.createUser);
-route
+router
   .route('/:id?')
   .get(userController.getUser)
   .post(userController.createUser)
   .patch(authController.protect, userController.updateUser)
   .delete(userController.deleteUser);
-module.exports = route;
+
+module.exports = router;
