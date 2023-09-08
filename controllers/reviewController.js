@@ -1,6 +1,7 @@
 const Review = require('../Models/reviewModel');
 const Tour = require('../Models/toursSchema');
 const catchAsync = require('../utils/catchAsync');
+const handler = require('./handlerFactory');
 
 exports.getAllReviews = catchAsync(async (req, res) => {
   let filter = {};
@@ -10,12 +11,12 @@ exports.getAllReviews = catchAsync(async (req, res) => {
     return res.status(400).json({ message: 'Databse has no review' });
   res.status(200).json(review);
 });
-exports.addReview = catchAsync(async (req, res) => {
-  const tourId = req.params.tourId;
-  const review = { ...req.body, user: req.user._id, tour: tourId };
-  await Review.create(review);
-  res.status(201).json(review);
-});
+exports.setTourUserId = (req, res, next) => {
+  if (!req.body.tour) req.body.tour = req.params.tourId;
+  if (!req.body.user) req.body.user = req.user.id;
+  next();
+};
+exports.addReview = handler.createOne(Review);
 exports.getReview = catchAsync(async (req, res) => {
   const review = await Tour.findById(req.params.id)
     .populate('reviews')
@@ -25,3 +26,4 @@ exports.getReview = catchAsync(async (req, res) => {
 exports.updateReview = catchAsync(async (req, res) => {
   res.status(201).json({ message: 'no dau canh tre' });
 });
+exports.deleteReview = handler.deleteOne(Review);
