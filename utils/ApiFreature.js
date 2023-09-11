@@ -3,9 +3,9 @@ module.exports = class APIFeature {
     this.query = query;
     this.queryString = queryString;
     this.page = page || 1;
-    this.sort = sort || '-ratingsAverage';
+    this.sort = sort;
     this.limit = limit || 10;
-    this.fields = fields || '-__v';
+    this.fields = fields;
   }
 
   filter() {
@@ -14,6 +14,7 @@ module.exports = class APIFeature {
   }
 
   sortPro() {
+    if (!this.sort) return this;
     const sortBy = this.sort.split(',').join(' ');
     this.query = this.query.sort(sortBy);
     return this;
@@ -26,6 +27,7 @@ module.exports = class APIFeature {
   }
 
   getField() {
+    if (!this.fields) return this;
     const fieldsLimit = this.fields.split(',').join(' ');
     this.query = this.query.select(fieldsLimit);
     return this;

@@ -6,13 +6,17 @@ const router = express.Router({ mergeParams: true });
 
 router
   .route('/:id')
-  .get(reviewController.getReview)
+  .get(reviewController.getAllReviews)
   .patch(reviewController.updateReview)
-  .delete(reviewController.deleteReview)
-  .post(reviewController.setTourUserId, reviewController.addReview);
+  .delete(reviewController.deleteReview);
 
 router
   .route('/')
   .get(reviewController.getAllReviews)
-  .post(authController.protect, reviewController.addReview);
+  // khi ma add review cho 1 tour thi id ad merge vao trong req nen se khong tim thay dia chi phia tren
+  .post(
+    authController.protect,
+    reviewController.setTourUserId,
+    reviewController.addReview
+  );
 module.exports = router;

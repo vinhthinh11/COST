@@ -1,36 +1,16 @@
 const Tour = require('../Models/toursSchema');
-const APIFeature = require('../utils/ApiFreature');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const handler = require('./handlerFactory');
 // const reviewController = require('./reviewController');
 
-exports.getAllToursOrTour = catchAsync(async (req, res) => {
-  const feature = new APIFeature(Tour.find(), req.query)
-    .filter()
-    .sortPro()
-    .paginate()
-    .getField();
-  const tour = await feature.query;
-  res.status(200).json({ amount: tour.length, tour });
-});
+exports.getAllTour = handler.getAll(Tour);
 exports.getTop5Rating = catchAsync(async (req, res) => {
   const top5 = await Tour.find().limit(5).sort('-ratingsAverage price');
   res.status(200).json({ amount: top5.length, top5 });
 });
 
-exports.findTour = catchAsync(async (req, res, next) => {
-  const doc = await Tour.findById(req.params.id)
-    .populate({
-      path: 'guides',
-      select: '-__v -role',
-    })
-    .populate('reviews');
-  if (!doc) {
-    throw new AppError(404, "Can't find the tour");
-  }
-  res.status(200).json(doc);
-});
+exports.findTour = handler.findOne(Tour, { path: 'reviews' });
 exports.addTour = handler.createOne(Tour);
 exports.updateTour = handler.updateOne(Tour);
 exports.deleteTour = handler.deleteOne(Tour);

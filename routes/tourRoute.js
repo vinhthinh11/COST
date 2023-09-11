@@ -6,14 +6,19 @@ const authController = require('../controllers/authController');
 const reviewRouter = require('./reviewRoute');
 
 // neu nhu gap dia chi nhu ben duoi thi khi di qua router URL se dc dieu huong sang ben reviewRouter de xu ly => ve
-router.use('/:tourId/reviews', reviewRouter);
+router.use('/:id/reviews', reviewRouter);
 // midldeware
 
 router.get('/top-5-rating', tourController.getTop5Rating);
 router.get('/get-tours-stats', tourController.getTourStats);
 router.get('/get-monthly-plan/:year', tourController.getMonthlyPlan);
 router
-  .get('/', authController.protect, tourController.getAllToursOrTour)
+  .get(
+    '/',
+    authController.protect,
+    authController.restrict('admin'),
+    tourController.getAllTour
+  )
   .post('/', tourController.addTour);
 router
   .route('/:id')

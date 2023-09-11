@@ -13,9 +13,14 @@ router.patch(
   authController.protect,
   authController.updatePassword
 );
-router.patch('/updateMe', authController.protect, userController.updateMe);
+router.patch(
+  '/updateMe',
+  authController.protect,
+  userController.handlerPassword,
+  userController.updateMe
+);
 router.delete('/deleteMe', authController.protect, userController.deleteMe);
-//rote under herr is for Admin
+//rote under here is for Admin
 router
   .route('/')
   .get(
