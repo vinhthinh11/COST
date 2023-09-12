@@ -100,6 +100,7 @@ const schema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+schema.index({ price: 1 });
 schema.virtual('durationWeeks').get(function (next) {
   return this.duration ? this.duration / 7 : undefined;
 });

@@ -14,6 +14,7 @@ function createJWTToken(payload) {
 }
 const createAndSendToken = (user, message, status, res) => {
   const token = createJWTToken(user._id);
+  // dau mat khau password = undifinded thi mongoose se khong xuat ra
   user.password = undefined;
   const cookieOptions = {
     expires: new Date(
@@ -40,7 +41,7 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!checkuser) throw new AppError(400, 'User not found');
   const checkpassword = await bcrypt.compare(password, checkuser.password);
   if (!checkpassword) {
-    return res.json({ message: 'Ten dang nhap hoac mk sai' });
+    return res.json({ message: 'Wrong password !' });
   }
   createAndSendToken(checkuser, 'Dang nhap thanh cong', 201, res);
 });
@@ -101,6 +102,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   });
   if (!user)
     return next(new AppError(402, 'User dont exist or time is expired'));
+  // 3> sau khi qua kiem tra cac buoc tren thi update password cho current user tu body cua page
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   user.resetPasswordToken = null;

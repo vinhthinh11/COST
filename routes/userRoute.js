@@ -13,10 +13,16 @@ router.patch(
   authController.protect,
   authController.updatePassword
 );
+router.get(
+  '/getMe',
+  authController.protect,
+  userController.getMe,
+  userController.getUser
+);
 router.patch(
   '/updateMe',
   authController.protect,
-  userController.handlerPassword,
+  userController.removeBodyPassword,
   userController.updateMe
 );
 router.delete('/deleteMe', authController.protect, userController.deleteMe);
@@ -30,10 +36,10 @@ router
   )
   .post(userController.createUser);
 router
-  .route('/:id?')
+  .use('/:id', authController.protect, authController.restrict('admin'))
   .get(userController.getUser)
   .post(userController.createUser)
-  .patch(authController.protect, userController.updateUser)
+  .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
 module.exports = router;

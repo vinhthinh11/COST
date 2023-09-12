@@ -9,7 +9,10 @@ module.exports = class APIFeature {
   }
 
   filter() {
-    this.query = this.query.find(this.queryString);
+    //  xu ly this queryString cho $ sign
+    let query = JSON.stringify(this.queryString);
+    query = query.replace(/\b(gt|lt|gte|lte)\b/g, math => `$${math}`);
+    this.query = this.query.find(JSON.parse(query));
     return this;
   }
 

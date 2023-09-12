@@ -13,13 +13,13 @@ router.get('/top-5-rating', tourController.getTop5Rating);
 router.get('/get-tours-stats', tourController.getTourStats);
 router.get('/get-monthly-plan/:year', tourController.getMonthlyPlan);
 router
-  .get(
+  .get('/', tourController.getAllTour)
+  .post(
     '/',
     authController.protect,
     authController.restrict('admin'),
-    tourController.getAllTour
-  )
-  .post('/', tourController.addTour);
+    tourController.addTour
+  );
 router
   .route('/:id')
   .get(tourController.findTour)
