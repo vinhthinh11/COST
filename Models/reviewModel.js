@@ -31,7 +31,7 @@ const review = new mongoose.Schema(
   }
 );
 
-review.pre(/^find/, function (next) {
+review.pre(/^find/, async function (next) {
   this.populate([
     { path: 'user', select: 'name email' },
     // { path: 'tour', select: 'name' },
@@ -49,14 +49,34 @@ review.statics.calcAverageRating = async function (tourId) {
       },
     },
   ]);
-  console.log(stats);
-  await Tour.findByIdAndUpdate(tourId, {
-    ratingsAverage: stats[0].avgRating,
-    ratingsQuantity: stats[0].nRating,
-  });
+  // trong truong hop khong co review do bi xoa phan findOneAnd luc nay se sinh ra loi do stats = []
+  if (stats.length > 0) {
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsAverage: stats[0].avgRating,
+      ratingsQuantity: stats[0].nRating,
+    });
+  } else {
+    // dua ratingAverage va ratingQuantity ve mac dinh
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsAverage: 4.5,
+      ratingsQuantity: 0,
+    });
+  }
 };
 review.post('save', function () {
   this.constructor.calcAverageRating(this.tour);
+});
+// Doi voi model moi thi boi vi chi cho thuc hien findOne 1 lan nen cai pre and post 1 trong 2 chi chay 1 lan
+// review.pre(/^findOneAnd/, async function (next) {
+//   // middleware nay dung cho truong hop update hoac delete review => update lai rating cua tour
+//   this.r = await this.findOne().clone();
+//   console.log('pre da chay roi');
+//   next();
+//   return this;
+// });
+// thay vi phai thuc hien pre and post thi chi can thuc hien o post
+review.post(/^findOneAnd/, async doc => {
+  if (doc) await doc.constructor.calcAverageRating(doc.tour);
 });
 const Reviews = mongoose.model('Review', review);
 

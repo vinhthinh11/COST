@@ -13,7 +13,7 @@ exports.removeBodyPassword = (req, res, next) => {
 exports.getAllUser = handler.getAll(User);
 exports.createUser = handler.createOne(User);
 exports.deleteUser = handler.deleteOne(User);
-exports.getUser = handler.findOne(User);
+exports.getUser = handler.getOne(User);
 exports.updateMe = handler.updateOne(User);
 exports.getMe = (res, req, next) => {
   res.params.id = res.user.id;

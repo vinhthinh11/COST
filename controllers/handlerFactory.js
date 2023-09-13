@@ -27,7 +27,7 @@ exports.updateOne = Model =>
     }
     res.status(200).json({ message: 'Update success', doc });
   });
-exports.findOne = (Model, popOption) =>
+exports.getOne = (Model, popOption) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
     if (popOption) {

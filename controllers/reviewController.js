@@ -9,6 +9,6 @@ exports.setTourUserId = (req, res, next) => {
 };
 exports.getAllReviews = handler.getAll(Review);
 exports.addReview = handler.createOne(Review);
-exports.getReview = handler.findOne(Review);
+exports.getReview = handler.getOne(Review);
 exports.updateReview = handler.updateOne(Review);
 exports.deleteReview = handler.deleteOne(Review);

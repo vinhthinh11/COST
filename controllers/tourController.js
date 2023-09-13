@@ -1,6 +1,5 @@
 const Tour = require('../Models/toursSchema');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/AppError');
 const handler = require('./handlerFactory');
 // const reviewController = require('./reviewController');
 
@@ -10,7 +9,7 @@ exports.getTop5Rating = catchAsync(async (req, res) => {
   res.status(200).json({ amount: top5.length, top5 });
 });
 
-exports.findTour = handler.findOne(Tour, { path: 'reviews' });
+exports.findTour = handler.getOne(Tour, { path: 'reviews' });
 exports.addTour = handler.createOne(Tour);
 exports.updateTour = handler.updateOne(Tour);
 exports.deleteTour = handler.deleteOne(Tour);
