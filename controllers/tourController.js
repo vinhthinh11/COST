@@ -1,4 +1,5 @@
 const Tour = require('../Models/toursSchema');
+const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 const handler = require('./handlerFactory');
 // const reviewController = require('./reviewController');
@@ -62,4 +63,45 @@ exports.getMonthlyPlan = catchAsync(async (req, res) => {
     // { $match: { numOfTourStart: { $max } } },
   ]);
   res.status(200).json({ amount: monthlyPlan.length, monthlyPlan });
+});
+exports.getTourWithin = catchAsync(async (req, res) => {
+  // lay may bien khai bao ben tour qua
+  const { distance = 100, latlng = 0, unit = 'km' } = req.params;
+  const [lat, lng] = latlng.split(',');
+  if (!lat || !lng)
+    throw new AppError(400, 'Please provide latitude and longitude');
+  const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1;
+  const tour = await Tour.find({
+    startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+  });
+  return res.status(200).json({
+    message: 'gui tin nhan thanh cong',
+    data: { number: tour.length, tour },
+  });
+});
+exports.getDistances = catchAsync(async (req, res, next) => {
+  const { latlng = 0, unit = 'km' } = req.params;
+  const [lat, lng] = latlng.split(',');
+  if (!lat || !lng) {
+    next(new AppError(400, 'Please provide latitude and longitude'));
+  }
+  const distances = await Tour.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: [+lng, +lat],
+        },
+        distanceField: 'distance',
+        distanceMultiplier: unit === 'km' ? 0.001 : 0.00062137,
+      },
+    },
+    { $project: { name: 1, distance: 1 } },
+  ]);
+  return res.status(200).json({
+    message: 'gui tin nhan thanh cong',
+    data: {
+      distances,
+    },
+  });
 });

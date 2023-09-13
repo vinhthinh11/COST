@@ -101,6 +101,7 @@ const schema = new mongoose.Schema(
   }
 );
 schema.index({ price: 1 });
+schema.index({ startLocation: '2dsphere' });
 schema.virtual('durationWeeks').get(function (next) {
   return this.duration ? this.duration / 7 : undefined;
 });
@@ -134,9 +135,8 @@ schema.pre(/^find/, function (next) {
   next();
 });
 // AGREGATION middleware function(hook)
-schema.pre('aggregate', function (next) {
+schema.post('aggregate', function (next) {
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  next();
 });
 const toursSchema = mongoose.model('Tours', schema);
 module.exports = toursSchema;
