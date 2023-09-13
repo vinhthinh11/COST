@@ -60,6 +60,7 @@ review.statics.calcAverageRating = async function (tourId) {
     await Tour.findByIdAndUpdate(tourId, {
       ratingsAverage: 4.5,
       ratingsQuantity: 0,
+      set: val => Math.round(val * 100) / 100,
     });
   }
 };
@@ -78,6 +79,7 @@ review.post('save', function () {
 review.post(/^findOneAnd/, async doc => {
   if (doc) await doc.constructor.calcAverageRating(doc.tour);
 });
+review.index({ tour: 1, user: 1 }, { unique: true });
 const Reviews = mongoose.model('Review', review);
 
 module.exports = Reviews;
