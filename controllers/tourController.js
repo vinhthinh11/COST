@@ -1,9 +1,11 @@
+// const multer = require('multer');
 const Tour = require('../Models/toursSchema');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 const handler = require('./handlerFactory');
 // const reviewController = require('./reviewController');
-
+// confiigure multer for upload img of tour
+// const upload = multer({ dest: 'public/img/tour' });
 exports.getAllTour = handler.getAll(Tour);
 exports.getTop5Rating = catchAsync(async (req, res) => {
   const top5 = await Tour.find().limit(5).sort('-ratingsAverage price');
