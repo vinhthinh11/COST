@@ -31,7 +31,7 @@ body {
   line-height: 1.6;
   font-weight: 300;
   font-family: 'Lato', sans-serif;
-  color: #777;
+  color: #080101;
   padding: 3rem;
   min-height: 100vh;
   display: -webkit-box;
@@ -148,7 +148,8 @@ body {
 }
 .heading-primary span,
 .heading-tertirary span {
-  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  padding: 0.3rem 1.1rem;
   line-height: 1;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
@@ -161,8 +162,8 @@ body {
   );
   background-image: linear-gradient(
     to bottom right,
-    rgba(125, 213, 111, 0.85),
-    rgba(40, 180, 135, 0.85)
+    rgb(39 57 36),
+    rgb(7 221 152 / 85%)
   );
 }
 
@@ -231,7 +232,7 @@ body {
 }
 
 .btn--green {
-  background-color: #55c57a;
+  background-color: #1da1f2;
   color: #fff;
 }
 .btn--green::after {
@@ -1108,14 +1109,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    right bottom,
-    from(#7dd56f),
-    to(#28b487)
-  );
-  background-image: linear-gradient(to right bottom, #7dd56f, #28b487);
+  background-image: linear-gradient(to right bottom, #dfcb92c7, #551d1d00);
   opacity: 0.7;
 }
 .card__picture-img {
@@ -1132,7 +1126,7 @@ body {
   padding: 2.5rem 3rem;
 }
 .card__sub-heading {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   text-transform: uppercase;
   font-weight: 700;
   grid-column: 1 / -1;
@@ -1145,7 +1139,7 @@ body {
   margin-bottom: 0.75rem;
 }
 .card__data {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
