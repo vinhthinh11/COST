@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const mongooseSanitize = require('express-mongo-sanitize');
 const hpp = require('hpp');
 const xss = require('xss-clean');
+const cookieParser = require('cookie-parser');
 // cau truc cua 1 middleware
 const tourRoute = require('./routes/tourRoute');
 const userRoute = require('./routes/userRoute');
@@ -51,6 +52,9 @@ const limmiter = rateLimit({
 app.use('/api', limmiter);
 // body parse( reading data from body)
 app.use(express.json({ limit: '10kb' }));
+// use cookie send back from server
+app.use(cookieParser());
+
 // data sanitization again noSQL injection
 app.use(mongooseSanitize());
 // data sanitization again XSS injection
