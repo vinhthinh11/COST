@@ -27,7 +27,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // All middleware go here Global
 // scrurity HTTP header
-app.use(helmet()); //Nen dung tren dau de bao ve server
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', '*');
+  res.setHeader('Access-Control-Allow-Headers', '*');
+  next();
+});
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
@@ -47,6 +57,10 @@ app.use(mongooseSanitize());
 app.use(xss());
 // prevent polution
 app.use(hpp({ whitelist: ['duration'] }));
+app.use((req, res, next) => {
+  res.setHeader('Acess-', 'application/json');
+  next();
+});
 
 // tourRoute xu ly
 app.use('/api/v1/tours', tourRoute);

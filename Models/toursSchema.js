@@ -134,6 +134,10 @@ schema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
   next();
 });
+schema.pre(/^find/, function (next) {
+  this.populate({ path: 'guides' });
+  next();
+});
 // AGREGATION middleware function(hook)
 schema.post('aggregate', function (next) {
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });

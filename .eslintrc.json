@@ -1,6 +1,10 @@
 {
   "extends": ["airbnb", "plugin:node/recommended", "prettier"],
   "plugins": ["prettier"],
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "rules": {
     "prettier/prettier": [
       "error",
@@ -19,7 +23,6 @@
         "ignores": ["restSpreadProperties"]
       }
     ],
-
     "spaced-comment": "off",
     "no-console": "warn",
     "consistent-return": "off",
