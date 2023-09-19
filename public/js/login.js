@@ -6,8 +6,13 @@ const login = async function (email, password) {
       url: '/api/v1/users/login',
       data: { email, password },
     });
+    // neu dang nhap thanh cong thi chuyen qua trang hompage
+    if (res.status === 200) {
+      alert('Dang nhap thanh cong');
+      location.assign('/');
+    }
   } catch (errors) {
-    console.log(errors.response);
+    alert(errors.response.data.message);
   }
 };
 document.querySelector('.form').addEventListener('submit', e => {

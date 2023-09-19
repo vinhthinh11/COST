@@ -61,10 +61,6 @@ app.use(mongooseSanitize());
 app.use(xss());
 // prevent polution
 app.use(hpp({ whitelist: ['duration'] }));
-app.use((req, res, next) => {
-  res.setHeader('Acess-', 'application/json');
-  next();
-});
 
 // tourRoute xu ly
 app.use('/api/v1/tours', tourRoute);

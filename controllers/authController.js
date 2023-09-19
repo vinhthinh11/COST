@@ -41,9 +41,9 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!checkuser) throw new AppError(400, 'User not found');
   const checkpassword = await bcrypt.compare(password, checkuser.password);
   if (!checkpassword) {
-    return res.json({ message: 'Wrong password !' });
+    throw new AppError(400, 'Wrong password');
   }
-  createAndSendToken(checkuser, 'Dang nhap thanh cong', 201, res);
+  createAndSendToken(checkuser, 'Dang nhap thanh cong', 200, res);
 });
 
 // Middlerware protect kiem tra xem ban da dang nhap chua
@@ -61,9 +61,23 @@ exports.protect = catchAsync(async (req, res, next) => {
     next(new AppError(400, 'Ban chua dang nhap de thuc hien chuc nang'));
   const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   const currentUser = await User.findById(decode.id);
+  if (!currentUser) next(new AppError(400, 'User khongt on tai'));
   req.user = currentUser;
   next();
 });
+// kiem tra xem user da login vao chua
+exports.isLoggedIn = async (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    if (decode.exp < Date.now() / 1000) return next();
+    const currentUser = await User.findById(decode.id);
+    if (!currentUser) return next();
+    res.locals.user = currentUser;
+    return next();
+  }
+  next();
+};
 // Midllerware to check if user is authorization (co phai la admin khong)
 exports.restrict =
   (...roles) =>
