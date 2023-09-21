@@ -1,5 +1,6 @@
 /* eslint-disable */
-const login = async function (email, password) {
+import { showAlert } from './alert.js';
+export const login = async function (email, password) {
   try {
     const res = await axios({
       method: 'POST',
@@ -8,16 +9,12 @@ const login = async function (email, password) {
     });
     // neu dang nhap thanh cong thi chuyen qua trang hompage
     if (res.status === 200) {
-      alert('Dang nhap thanh cong');
-      location.assign('/');
+      showAlert('success', 'Đăng nhập thành công');
+      setTimeout(function () {
+        location.assign('/');
+      }, 2000);
     }
   } catch (errors) {
-    alert(errors.response.data.message);
+    showAlert('error', 'Đăng nhập thất bại');
   }
 };
-document.querySelector('.form').addEventListener('submit', e => {
-  e.preventDefault();
-  const email = document.querySelector('#email').value;
-  const password = document.querySelector('#password').value;
-  login(email, password);
-});

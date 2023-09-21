@@ -8,7 +8,15 @@ html(lang="en")
       link(rel="shortcut icon", href="/img/favicon.png", type="image/png")
       title Natours | #{title?title:"Welcome to the Natours"}
       link(href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700" rel="stylesheet")
-      script(src="/js/backToTop.js" defer) 
+      script(src="/js/backToTop.js" defer)
+      link( rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin="anonymous")
+      script( src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin="anonymous" defer)
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js") 
+      script(src="/js/index.js" type="module" defer)
     body
     include _header
     block content

@@ -68,6 +68,8 @@ app.use('/api/v1/tours', tourRoute);
 app.use('/api/v1/users', userRoute);
 // useRoute xu ly review
 app.use('/api/v1/reviews', reviewRoute);
+// TO DO cam trien khai them 2 route cho productReview va product Route
+
 // nhung dia chi con lai thi thi se tra lai khong tim thay thong qua middleware
 app.use('/', viewRoute);
 app.all('*', (req, res, next) => {

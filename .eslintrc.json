@@ -5,6 +5,10 @@
     "browser": true,
     "node": true
   },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+
   "rules": {
     "prettier/prettier": [
       "error",
