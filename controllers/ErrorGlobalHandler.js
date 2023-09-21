@@ -1,26 +1,42 @@
 const AppError = require('../utils/AppError');
 // refactor code
-function sendErrorDev(res, err) {
-  res.status(err.codeStatus).json({
-    status: err.status,
-    message: err.message,
-    err: err,
-    stack: err.stack,
-  });
-}
-function sendErrorProd(res, err) {
-  // check if the error is a operational
-  if (err.isOperational) {
+function sendErrorDev(req, res, err) {
+  if (req.originalUrl.startsWith('/api')) {
     res.status(err.codeStatus).json({
       status: err.status,
       message: err.message,
+      err: err,
+      stack: err.stack,
     });
   } else {
+    res
+      .status(err.codeStatus)
+      .render('error', { title: 'Lỗi rồ lượm ơi', msg: err.message });
+  }
+}
+function sendErrorProd(req, res, err) {
+  if (req.originalUrl.startsWith('/api')) {
+    if (err.isOperational) {
+      return res.status(err.codeStatus).json({
+        status: err.status,
+        message: err.message,
+      });
+    }
     // eslint-disable-next-line no-console
-    console.error('Too bad, somthing went wrong :))', err);
-    res.status(err.codeStatus).json({
+    return res.status(err.codeStatus).json({
       status: err.status,
       message: 'something goes very wrong!!',
+    });
+  }
+  if (err.isOperational) {
+    res
+      .status(err.codeStatus)
+      .render('error', { title: 'Lỗi rồ lượm ơi', msg: err.message });
+  } else {
+    // eslint-disable-next-line no-console
+    return res.status(err.codeStatus).render('error', {
+      title: 'Lỗi rồ lượm ơi',
+      msg: 'something went wrong',
     });
   }
 }
@@ -49,7 +65,8 @@ exports.ErrorHandler = (err, req, res, next) => {
   err.status = err.status || 'error';
   // with development => detail error
   if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(res, err);
+    console.log(err);
+    sendErrorDev(req, res, err);
     // production enviroment => general message
   } else if (process.env.NODE_ENV === 'production') {
     // handle CastError form mongodb
@@ -59,6 +76,6 @@ exports.ErrorHandler = (err, req, res, next) => {
     if (err.name === 'ValidationError') error = handlerValidateError(err);
     if (err.name === 'JsonWebTokenError') error = handlerJsonWebTokenError(err);
     if (err.name === 'TokenExpiredError') error = handlerTokenExpiredError(err);
-    sendErrorProd(res, error);
+    sendErrorProd(req, res, error);
   }
 };

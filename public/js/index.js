@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { login } from './login.js';
+import { login, logOut } from './login.js';
 import { displayMap } from './mapbox.js';
 
 const form = document.querySelector('.form');
@@ -11,6 +11,11 @@ if (form) {
     const password = document.querySelector('#password').value;
     login(email, password);
   });
+}
+
+const logOutBtn = document.querySelector('.nav__el--logout');
+if (logOutBtn) {
+  logOutBtn.addEventListener('click', logOut);
 }
 // co map thi moi display
 const checkMap = document.querySelector('#map');

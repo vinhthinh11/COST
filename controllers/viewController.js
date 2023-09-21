@@ -9,13 +9,15 @@ exports.getOverview = catchAsync(async (req, res) => {
   // 3> Send back template to client side
   res.status(200).render('overview', { title: 'All tours', tours });
 });
-exports.getTourDetail = catchAsync(async (req, res) => {
+exports.getTourDetail = catchAsync(async (req, res, next) => {
   const id = req.params.id;
   const tour = await Tour.findById(id).populate({
     path: 'reviews',
     fields: 'reviews rating user',
   });
-  if (!tour) throw new AppError(404, 'No tour found');
+  if (!tour) {
+    return next(new AppError(404, 'There is no tour'));
+  }
   res.status(200).render('tour', { title: `${tour.name} Tour`, tour });
 });
 exports.getLogin = catchAsync(async (req, res) => {

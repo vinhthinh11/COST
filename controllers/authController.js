@@ -69,12 +69,18 @@ exports.protect = catchAsync(async (req, res, next) => {
 exports.isLoggedIn = async (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
-    const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-    if (decode.exp < Date.now() / 1000) return next();
-    const currentUser = await User.findById(decode.id);
-    if (!currentUser) return next();
-    res.locals.user = currentUser;
-    return next();
+    try {
+      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+      if (decode.exp < Date.now() / 1000) return next();
+
+      const currentUser = await User.findById(decode.id);
+      if (!currentUser) return next();
+      res.locals.user = currentUser;
+      return next();
+    } catch (e) {
+      return next();
+    }
   }
   next();
 };
@@ -106,6 +112,14 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     res.status(400).json({ message: 'gui mail khong thanh cong', err });
   }
 });
+exports.logOut = (req, res) => {
+  // gui cookie moi voi jwt = undefined
+  res.cookie('jwt', 'logout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({ status: 'success' });
+};
 exports.resetPassword = catchAsync(async (req, res, next) => {
   // 1> lay token from url
   const hashedToken = crypto
