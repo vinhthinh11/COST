@@ -65,7 +65,6 @@ exports.ErrorHandler = (err, req, res, next) => {
   err.status = err.status || 'error';
   // with development => detail error
   if (process.env.NODE_ENV === 'development') {
-    console.log(err);
     sendErrorDev(req, res, err);
     // production enviroment => general message
   } else if (process.env.NODE_ENV === 'production') {

@@ -62,6 +62,15 @@ app.use(xss());
 // prevent polution
 app.use(hpp({ whitelist: ['duration'] }));
 
+// This route for project COST 435
+const productRoute = require('./routes/productRoute');
+const reviewProductRoute = require('./routes/reviewProductRoute');
+const userProductRoute = require('./routes/userRoute');
+
+app.use('/api/v1/product', productRoute);
+app.use('/api/v1/userProduct', userProductRoute);
+app.use('/api/v1/productReview', reviewProductRoute);
+
 // tourRoute xu ly
 app.use('/api/v1/tours', tourRoute);
 // userRoute xu ly
