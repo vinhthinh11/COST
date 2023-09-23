@@ -11,7 +11,7 @@ const review = new mongoose.Schema(
     review: { type: String },
     createdAt: {
       type: Date,
-      default: Date.now,
+      default: Date.now(),
     },
     user: {
       type: mongoose.Schema.ObjectId,

@@ -2,7 +2,7 @@
 import { login, logOut } from './login.js';
 import { displayMap } from './mapbox.js';
 
-const form = document.querySelector('.form');
+const form = document.querySelector('.form--login');
 // co from submit thi moi add listeners
 if (form) {
   form.addEventListener('submit', e => {

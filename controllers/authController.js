@@ -63,6 +63,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(decode.id);
   if (!currentUser) next(new AppError(400, 'User khongt on tai'));
   req.user = currentUser;
+  res.locals.user = currentUser;
   next();
 });
 // kiem tra xem user da login vao chua

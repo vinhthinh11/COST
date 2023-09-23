@@ -4,12 +4,20 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-// dung middleware to check if user is logged in
-router.use(authController.isLoggedIn);
 //load index page
-router.get('/', viewController.getOverview);
-router.get('/tour/:id', viewController.getTourDetail);
-router.get('/login', viewController.getLogin);
-router.get('/signup', viewController.getSignup);
+router.get('/', authController.isLoggedIn, viewController.getOverview);
+router.get(
+  '/tour/:id',
+  authController.isLoggedIn,
+  viewController.getTourDetail
+);
+router.get('/login', authController.isLoggedIn, viewController.getLogin);
+router.get('/signup', authController.isLoggedIn, viewController.getSignup);
+router.get('/me', authController.protect, viewController.getProfile);
+router.post(
+  '/submit-user-data',
+  authController.protect, //protect để next thông tin user sang req.user
+  viewController.updateUserData
+);
 
 module.exports = router;

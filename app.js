@@ -52,6 +52,7 @@ const limmiter = rateLimit({
 app.use('/api', limmiter);
 // body parse( reading data from body)
 app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 // use cookie send back from server
 app.use(cookieParser());
 
@@ -65,11 +66,13 @@ app.use(hpp({ whitelist: ['duration'] }));
 // This route for project COST 435
 const productRoute = require('./routes/productRoute');
 const reviewProductRoute = require('./routes/reviewProductRoute');
-const userProductRoute = require('./routes/userRoute');
+const userProductRoute = require('./routes/userProductRoute');
+const orderRoute = require('./routes/orderRoute');
 
 app.use('/api/v1/product', productRoute);
 app.use('/api/v1/userProduct', userProductRoute);
 app.use('/api/v1/productReview', reviewProductRoute);
+app.use('/api/v1/order', orderRoute);
 
 // tourRoute xu ly
 app.use('/api/v1/tours', tourRoute);
@@ -77,6 +80,7 @@ app.use('/api/v1/tours', tourRoute);
 app.use('/api/v1/users', userRoute);
 // useRoute xu ly review
 app.use('/api/v1/reviews', reviewRoute);
+
 // TO DO cam trien khai them 2 route cho productReview va product Route
 
 // nhung dia chi con lai thi thi se tra lai khong tim thay thong qua middleware

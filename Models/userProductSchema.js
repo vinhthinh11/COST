@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const user = new mongoose.Schema({
+const userProduct = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please enter name'],
@@ -53,17 +53,17 @@ const user = new mongoose.Schema({
     select: false,
   },
 });
-user.pre('save', async function (next) {
+userProduct.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
   this.passwordConfirm = undefined;
   next();
 });
-user.pre(/^find/, function (next) {
+userProduct.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
   next();
 });
-user.methods.createPasswordToken = function () {
+userProduct.methods.createPasswordToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
   this.resetPasswordToken = crypto
     .createHash('sha256')
@@ -72,10 +72,10 @@ user.methods.createPasswordToken = function () {
   this.exprirePasswordToken = Date.now() + 10 * 60 * 1000;
   return resetToken;
 };
-user.methods.deleteMe = async function () {
+userProduct.methods.deleteMe = async function () {
   this.active = false;
   await this.save();
   return this;
 };
-const userSchema = mongoose.model('User', user);
-module.exports = userSchema;
+const userProductSchema = mongoose.model('UserProduct', userProduct);
+module.exports = userProductSchema;
