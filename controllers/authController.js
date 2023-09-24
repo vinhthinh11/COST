@@ -151,8 +151,10 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     user.password
   );
   if (!checkpassword) {
-    return next(new AppError(404, 'Invalid password'));
+    return next(new AppError(404, 'Wrong input current password'));
   }
+  if (req.body.password !== req.body.passwordConfirm)
+    return next(new AppError(404, 'Mật khẩu không trùng nhau'));
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
