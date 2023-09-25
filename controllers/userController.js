@@ -19,7 +19,6 @@ const AppError = require('../utils/AppError');
 // 2> Store file on memory to resize it's size, the image will be stored on buffer (req.file.buffer)
 const multerStorage = multer.memoryStorage();
 const multerFilter = (req, file, cb) => {
-  console.log(file);
   if (file.mimetype.startsWith('image')) cb(null, true);
   else cb(new AppError(400, 'Chỉ hỗ trợ định dạng ảnh'), false);
 };

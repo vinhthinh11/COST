@@ -1,4 +1,5 @@
-// const multer = require('multer');
+const multer = require('multer');
+const sharp = require('sharp');
 const Tour = require('../Models/toursSchema');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
@@ -6,6 +7,24 @@ const handler = require('./handlerFactory');
 // const reviewController = require('./reviewController');
 // confiigure multer for upload img of tour
 // const upload = multer({ dest: 'public/img/tour' });
+
+const multerStorage = multer.memoryStorage();
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) cb(null, true);
+  else cb(new AppError(400, 'Chỉ hỗ trợ định dạng ảnh'), false);
+};
+
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
+
+exports.uploadTourImages = upload.fields([
+  { name: 'imageCover', maxCount: 1 },
+  { name: 'images', maxCount: 3 },
+]);
+// upload.array('images', 5);
+exports.resizeImages = (req, res, next) => {
+  // next();
+  console.log(req.files);
+};
 exports.getAllTour = handler.getAll(Tour);
 exports.getTop5Rating = catchAsync(async (req, res) => {
   const top5 = await Tour.find().limit(5).sort('-ratingsAverage price');

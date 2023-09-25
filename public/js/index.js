@@ -17,9 +17,12 @@ const updateForm = document.querySelector('.form-user-data');
 if (updateForm) {
   updateForm.addEventListener('submit', e => {
     e.preventDefault();
-    const email = document.querySelector('#email').value;
-    const name = document.querySelector('#name').value;
-    updateUserData({ name, email }, 'data');
+    const form = new FormData();
+    form.append('name', document.querySelector('#name').value);
+    form.append('email', document.querySelector('#email').value);
+    form.append('photo', document.querySelector('#photo').files[0]);
+    console.log(document.querySelector('#photo').files);
+    // updateUserData(form, 'data');
   });
 }
 const updataPassword = document.querySelector('.form-user-settings');

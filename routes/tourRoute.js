@@ -23,7 +23,11 @@ router
 router
   .route('/:id')
   .get(tourController.findTour)
-  .patch(tourController.updateTour)
+  .patch(
+    tourController.uploadTourImages,
+    tourController.resizeImages,
+    tourController.updateTour
+  )
   .delete(
     // authController.protect,
     // authController.restrict('admin', 'lead-guide'),
