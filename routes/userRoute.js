@@ -1,9 +1,8 @@
 const express = require('express');
-const multer = require('multer'); // handler image
+
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 
-const updload = multer({ dest: 'public/img/users/' });
 const router = express.Router();
 // these routes under are for user controllers
 router.post('/signup', authController.signup);
@@ -25,7 +24,8 @@ router.get(
 router.patch(
   '/updateMe',
   authController.protect,
-  updload.single('photo'), // upate cho file photo
+  userController.uploadUserPhoto,
+  userController.resizeUserPhoto, //sau khi upload photo resize photo
   userController.removeBodyPassword, //middleware remove password va chuyen id sang cho req.params.id
   userController.updateMe
 );

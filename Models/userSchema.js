@@ -41,6 +41,7 @@ const user = new mongoose.Schema({
   },
   photo: {
     type: String,
+    default: 'default.jpg',
   },
   resetPasswordToken: { type: String, select: false },
   exprirePasswordToken: { type: Date, select: false },
