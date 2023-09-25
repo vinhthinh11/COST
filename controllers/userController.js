@@ -4,6 +4,7 @@ const handler = require('./handlerFactory');
 exports.removeBodyPassword = (req, res, next) => {
   // khi khai bao gia tri = undefined thi mongoose se khong thuc hien update cho gia tri do
   // tai vi params.id khong co => de don gian nen them o day de handler no thong nhat
+  console.log(req.file, req.body);
   req.params.id = req.user.id;
   req.body.password = undefined;
   req.body.passwordConfirm = undefined;
