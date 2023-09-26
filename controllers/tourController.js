@@ -15,16 +15,43 @@ const multerFilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
-
+// uploadTourImages middlerware khi gui req o bodyform co chua images thi multer xu ly dua cac images sang truong files tuong ung voi cac name khai bao trong fields
 exports.uploadTourImages = upload.fields([
   { name: 'imageCover', maxCount: 1 },
   { name: 'images', maxCount: 3 },
 ]);
 // upload.array('images', 5);
-exports.resizeImages = (req, res, next) => {
-  // next();
-  console.log(req.files);
-};
+exports.resizeImages = catchAsync(async (req, res, next) => {
+  //dieu chinh kich thuoc cua images, sharp xu ly
+  if (req.files.imageCover && req.files.images) {
+    // 1> Xu ly imageCover
+    const imgCoverName = `${req.user.id.slice(-5)}-${
+      req.files.imageCover[0].originalname.split('.')[0]
+    }.jpeg`;
+    req.body.imageCover = `${imgCoverName}`;
+    await sharp(req.files.imageCover[0].buffer)
+      .resize(2000, 1333)
+      .toFormat('jpeg')
+      .jpeg({ quality: 90 })
+      .toFile(`public/img/tours/${imgCoverName}`);
+    // 2> Xu ly imageCover
+    req.body.images = []; // Phai tao array
+    req.files.images.forEach(async (img, i) => {
+      const imgsName = `${req.user.id.slice(-5)}-${
+        img.originalname.split('.')[0]
+      }.jpeg`;
+      // req.body.images[i] = `${imgsName}`;
+      req.body.images.push(imgsName);
+      await sharp(img.buffer)
+        .resize(2000, 1333)
+        .toFormat('jpeg')
+        .jpeg({ quality: 90 })
+        .toFile(`public/img/tours/${imgsName}`);
+    });
+    console.log(req.body);
+  }
+  next();
+});
 exports.getAllTour = handler.getAll(Tour);
 exports.getTop5Rating = catchAsync(async (req, res) => {
   const top5 = await Tour.find().limit(5).sort('-ratingsAverage price');

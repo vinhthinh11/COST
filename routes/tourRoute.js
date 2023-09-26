@@ -24,6 +24,7 @@ router
   .route('/:id')
   .get(tourController.findTour)
   .patch(
+    authController.protect,
     tourController.uploadTourImages,
     tourController.resizeImages,
     tourController.updateTour
