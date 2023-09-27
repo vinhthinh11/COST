@@ -21,8 +21,7 @@ if (updateForm) {
     form.append('name', document.querySelector('#name').value);
     form.append('email', document.querySelector('#email').value);
     form.append('photo', document.querySelector('#photo').files[0]);
-    console.log(document.querySelector('#photo').files);
-    // updateUserData(form, 'data');
+    updateUserData(form, 'data');
   });
 }
 const updataPassword = document.querySelector('.form-user-settings');

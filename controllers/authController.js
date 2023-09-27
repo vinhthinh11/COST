@@ -30,7 +30,6 @@ const createAndSendToken = (user, message, status, res) => {
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
   const url = `${req.protocol}://${req.get('host')}/me`;
-  console.log(url);
   await new Email(newUser, url).sendWelcome();
   createAndSendToken(newUser, 'Tao user moi thanh cong', 201, res);
 });
@@ -97,16 +96,11 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   if (!user) throw new AppError(404, 'Email provide dont exist');
   const resetToken = user.createPasswordToken();
   await user.save({ validateBeforeSave: false });
-  const resetURL = `${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/user/resetPassword/${resetToken}`;
-  const message = `Foget your password? then click here to set you password  URL: ${resetURL}`;
   try {
-    // await sendEmail({
-    //   email: user.email,
-    //   subject: 'reset password',
-    //   message: message,
-    // });
+    const resetURL = `${req.protocol}://${req.get(
+      'host'
+    )}/api/v1/users/resetPassword/${resetToken}`;
+    await new Email(user, resetURL).sendResetPassword();
     res.status(200).json({ message: 'Success send email' });
   } catch (err) {
     res.status(400).json({ message: 'gui mail khong thanh cong', err });
