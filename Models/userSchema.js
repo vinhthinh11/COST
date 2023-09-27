@@ -35,7 +35,7 @@ const user = new mongoose.Schema({
       validator: function (value) {
         return this.password === value;
       },
-      message: 'password and comfirmpassword not match second time',
+      message: 'Mật khẩu và mật khẩu xác nhận không trùng khớp',
     },
     select: false,
   },

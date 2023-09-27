@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../Models/userSchema');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
-const sendEmail = require('../utils/emailSender');
+// const sendEmail = require('../utils/emailSender');
+const Email = require('../utils/emailSender');
 
 function createJWTToken(payload) {
   return jwt.sign({ id: payload }, process.env.JWT_SECRET, {
@@ -27,12 +28,10 @@ const createAndSendToken = (user, message, status, res) => {
   res.status(status).json({ message, user, token });
 };
 exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
-  });
+  const newUser = await User.create(req.body);
+  const url = `${req.protocol}://${req.get('host')}/me`;
+  console.log(url);
+  await new Email(newUser, url).sendWelcome();
   createAndSendToken(newUser, 'Tao user moi thanh cong', 201, res);
 });
 exports.login = catchAsync(async (req, res, next) => {
@@ -103,11 +102,11 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   )}/api/v1/user/resetPassword/${resetToken}`;
   const message = `Foget your password? then click here to set you password  URL: ${resetURL}`;
   try {
-    await sendEmail({
-      email: user.email,
-      subject: 'reset password',
-      message: message,
-    });
+    // await sendEmail({
+    //   email: user.email,
+    //   subject: 'reset password',
+    //   message: message,
+    // });
     res.status(200).json({ message: 'Success send email' });
   } catch (err) {
     res.status(400).json({ message: 'gui mail khong thanh cong', err });

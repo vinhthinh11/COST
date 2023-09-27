@@ -28,7 +28,7 @@ module.exports = class Email {
   async send(templates, subject) {
     // 1> render HTML from pug templates
     const html = pug.renderFile(
-      `${__dirname}/../views/emails/${templates.pug}`,
+      `${__dirname}/../views/emails/${templates}.pug`,
       { firstName: this.firstName, url: this.url, subject }
     );
     // 2> define email option
