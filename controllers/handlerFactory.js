@@ -27,6 +27,7 @@ exports.updateOne = Model =>
     }
     res.status(200).json({ message: 'Update success', doc });
   });
+/**popOption se la field that you want to populate */
 exports.getOne = (Model, popOption) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);

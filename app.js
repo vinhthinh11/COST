@@ -14,6 +14,7 @@ const tourRoute = require('./routes/tourRoute');
 const userRoute = require('./routes/userRoute');
 const reviewRoute = require('./routes/reviewRoute');
 const viewRoute = require('./routes/viewRoute');
+const bookingRoute = require('./routes/bookingRoute');
 
 const AppError = require('./utils/AppError');
 const ErrorGlobalHandler = require('./controllers/ErrorGlobalHandler');
@@ -75,17 +76,17 @@ app.use('/api/v1/userProduct', userProductRoute);
 app.use('/api/v1/productReview', reviewProductRoute);
 app.use('/api/v1/order', orderRoute);
 
-// tourRoute xu ly
+// Route xu ly tours
 app.use('/api/v1/tours', tourRoute);
-// userRoute xu ly
+// Route xu ly users
 app.use('/api/v1/users', userRoute);
-// useRoute xu ly review
+// Route xu ly reviews
 app.use('/api/v1/reviews', reviewRoute);
-
-// TO DO cam trien khai them 2 route cho productReview va product Route
-
-// nhung dia chi con lai thi thi se tra lai khong tim thay thong qua middleware
+// Route xu ly Bookings
+app.use('/api/v1/bookings', bookingRoute);
+// Route for default: localhost:3000/(trang index cua pages)
 app.use('/', viewRoute);
+// nhung dia chi con lai thi thi se tra lai khong tim thay thong qua middleware
 app.all('*', (req, res, next) => {
   next(
     new AppError(404, `khong tim thay dia chi cho duogn dan ${req.originalUrl}`)
