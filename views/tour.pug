@@ -13,7 +13,8 @@ mixin overviewGuide(guide)
     img.overview-box__img(src=`/img/users/${guide.photo}`, alt=`${guide.role.replace('-',' ')}`)
     span.overview-box__label #{guide.role.replace('-',' ')}
     span.overview-box__text #{guide.name}
-
+block append head 
+    script(src="https://js.stripe.com/v3/")
 block content
   section.section-header
     .header__hero
@@ -76,4 +77,7 @@ block content
       .cta__content
         h2.heading-secondary What are you waiting for?
         p.cta__text #{tour.duration} days. 1 adventure. Infinite memories. Make it yours today!
-        button.btn.btn--green.span-all-rows Book tour now!
+        if user
+         a.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tour._id}`) Book tour now!
+        else
+          a.btn.btn--green.span-all-rows(href='/login') Login to Book the tour!

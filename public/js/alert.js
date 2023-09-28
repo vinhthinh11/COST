@@ -4,7 +4,7 @@ const hideAlert = () => {
   const el = document.querySelector('.alert');
   if (el) el.parentElement.removeChild(el);
 };
-// type have only two option success or error
+//** type have only two option "success" or "error"*/
 export const showAlert = (type, message) => {
   hideAlert();
   // insert html to dom

@@ -2,6 +2,7 @@
 import { login, logOut } from './login.js';
 import { displayMap } from './mapbox.js';
 import { updateUserData } from './updateUserData.js';
+import bookTour from './bookTour.js';
 
 const form = document.querySelector('.form--login');
 // co from submit thi moi add listeners
@@ -44,3 +45,4 @@ const checkMap = document.querySelector('#map');
 if (checkMap) {
   displayMap();
 }
+bookTour();
