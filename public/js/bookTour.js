@@ -23,7 +23,6 @@ export default async function () {
         await stripe.redirectToCheckout({
           sessionId: session.data.session.id,
         });
-        showAlert('success', 'Thu');
       } catch (errors) {
         console.log(errors);
         showAlert('error', 'Thuc hien thanh toan khong thanh cong');
