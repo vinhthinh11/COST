@@ -23,12 +23,18 @@ const booking = new mongoose.Schema(
       required: [true, 'Must have paid or not paid'],
       default: true,
     },
+    quantity: { type: Number, default: 1 },
   },
   { timestamps: { createdAt: 'created_at', updatedAt: false } }
 );
 // populate Tour and user every time queries
 booking.pre(/^find/, () => {
-  this.populate('user').populate({ path: 'tour', select: 'name' });
+  this.populate('user').populate({ path: 'tour', select: 'name price' });
+});
+// khi tao 1 record thi se tinh lun gia cua booking
+booking.save('save', async () => {
+  await this.populate('user').populate({ path: 'tour', select: 'name' });
+  this.price = this.quantity * this.tour.price;
 });
 const Booking = mongoose.model('Booking', booking);
 module.exports = Booking;
