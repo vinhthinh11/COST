@@ -2,7 +2,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Tour = require('../Models/toursSchema');
 const Booking = require('../Models/bookingSchema');
 const catchAsync = require('../utils/catchAsync');
-// const handler = require('./handlerFactory');
+const handler = require('./handlerFactory');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1> Get the current book tour
@@ -50,3 +50,8 @@ exports.createBookingCheckout = async (req, res, next) => {
   }
   next();
 };
+exports.getAllBookings = handler.getAll(Booking);
+exports.updateBooking = handler.updateOne(Booking);
+exports.deleteBooking = handler.deleteOne(Booking);
+exports.addBooking = handler.createOne(Booking);
+exports.getBooking = handler.getOne(Booking);
