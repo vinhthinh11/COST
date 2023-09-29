@@ -19,12 +19,10 @@ export default async function () {
           url: `/api/v1/bookings/checkout-session/${tourId}`,
         });
         // neu dang nhap thanh cong thi chuyen qua trang hompage
-        console.log(session);
         await stripe.redirectToCheckout({
           sessionId: session.data.session.id,
         });
       } catch (errors) {
-        console.log(errors);
         showAlert('error', 'Thuc hien thanh toan khong thanh cong');
       }
     });

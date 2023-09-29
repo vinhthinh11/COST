@@ -27,7 +27,6 @@ export const displayMap = function () {
         .setContent('You clicked the map at ' + e.latlng.toString())
         .openOn(map);
       L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-      console.log(e.latlng);
     }
 
     map.on('click', onMapClick);

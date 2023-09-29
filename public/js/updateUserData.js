@@ -22,7 +22,6 @@ export const updateUserData = async function (data, type) {
       }, 1500);
     }
   } catch (errors) {
-    console.log(errors);
     showAlert('error', errors.response.data.message);
   }
 };

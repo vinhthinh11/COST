@@ -8,6 +8,7 @@ const mongooseSanitize = require('express-mongo-sanitize');
 const hpp = require('hpp');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser'); //chuyen cookie tu res sang store trong local cookie
+const compression = require('compression');
 
 // cau truc cua 1 middleware
 const tourRoute = require('./routes/tourRoute');
@@ -64,6 +65,7 @@ app.use(mongooseSanitize());
 app.use(xss());
 // prevent polution
 app.use(hpp({ whitelist: ['duration'] }));
+app.use(compression());
 
 // This route for project COST 435
 const productRoute = require('./routes/productRoute');
