@@ -4,7 +4,7 @@ const booking = new mongoose.Schema(
   {
     tour: {
       type: mongoose.Schema.ObjectId,
-      ref: 'Tour',
+      ref: 'Tours',
       required: [true, 'Require Tour ID for booking'],
     },
     user: {
@@ -28,13 +28,11 @@ const booking = new mongoose.Schema(
   { timestamps: { createdAt: 'created_at', updatedAt: false } }
 );
 // populate Tour and user every time queries
-booking.pre(/^find/, () => {
-  this.populate('user').populate({ path: 'tour', select: 'name price' });
+booking.pre(/^find/, function (next) {
+  this.populate('user').populate({ path: 'tour' });
+  next();
 });
 // khi tao 1 record thi se tinh lun gia cua booking
-booking.save('save', async () => {
-  await this.populate('user').populate({ path: 'tour', select: 'name' });
-  this.price = this.quantity * this.tour.price;
-});
+
 const Booking = mongoose.model('Booking', booking);
 module.exports = Booking;

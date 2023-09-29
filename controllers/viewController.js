@@ -1,6 +1,7 @@
 const AppError = require('../utils/AppError');
 const Tour = require('../Models/toursSchema');
 const User = require('../Models/userSchema');
+const Booking = require('../Models/bookingSchema');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getOverview = catchAsync(async (req, res) => {
@@ -44,3 +45,12 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
     .status(200)
     .render('profile', { title: 'User profile', user: doc });
 });
+exports.getAllMyBookings = async (req, res, next) => {
+  // tim tat ca cac booking cua current use
+  const bookings = await Booking.find({ user: req.user.id });
+  if (bookings.length < 0) return res.status(404).json({ bookings: [] });
+  // 2> sau khi tim dc booking cua user thi load cac tour cua user ra
+  const tours = bookings.map(booking => booking.tour);
+  // 3> co tours render cac tour ra
+  return res.status(200).render('overview', { title: 'My booking', tours });
+};

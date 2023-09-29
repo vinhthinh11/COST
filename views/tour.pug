@@ -13,8 +13,8 @@ mixin overviewGuide(guide)
     img.overview-box__img(src=`/img/users/${guide.photo}`, alt=`${guide.role.replace('-',' ')}`)
     span.overview-box__label #{guide.role.replace('-',' ')}
     span.overview-box__text #{guide.name}
-block append head 
-    script(src="https://js.stripe.com/v3/")
+
+    
 block content
   section.section-header
     .header__hero
