@@ -14,7 +14,6 @@ const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
 exports.uploadProductUrl = upload.single('imageUrl');
 exports.resizeProductUrl = async (req, res, next) => {
   if (req.file) {
-    console.log(req.file);
     // chuyen tat ca dinh dang sang jpeg
     const filename = `${req.file.originalname.split('.')[0]}.jpeg`;
     req.body.imageUrl = `${filename}`;
