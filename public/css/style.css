@@ -30,7 +30,7 @@ html {
 body {
   line-height: 1.6;
   font-weight: 300;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Tahoma', sans-serif;
   color: #080101;
   min-height: 100vh;
   display: -webkit-box;
@@ -608,7 +608,7 @@ body {
 
 .mapboxgl-popup-content {
   text-align: center;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Tahoma', sans-serif;
   padding: 1.5rem !important;
   font-size: 1.4rem;
   -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15) !important;
@@ -1105,7 +1105,7 @@ body {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 7rem;
+  grid-gap: 2rem;
 }
 
 .card {
@@ -1183,7 +1183,7 @@ body {
 .card__icon {
   height: 2rem;
   width: 2rem;
-  fill: #55c57a;
+  fill: #fff;
 }
 .card__footer {
   background-color: #f7f7f7;

@@ -1,0 +1,26 @@
+extends base
+
+block content
+  main( class="main")
+    .card-container
+      each product in products
+        .card
+          .card__header
+            .card__picture
+              .card__picture-overlay &nbsp;
+              img.card__picture-img(src=`img/product/${product.imageUrl}`, alt=`${product.name}`)
+          .card__details
+            h4.card__sub-heading= product.name
+            p.card__text= product.summary
+          .card__footer
+            p
+              span.card__footer-value Giá: #{product.price}đ
+              |&nbsp;&nbsp;
+            p.card__ratings
+              span.card__footer-value #{product.ratingsAverage}
+              |&nbsp;&nbsp;
+              span.card__footer-text rating (#{product.ratingsQuantity})
+            a.btn.btn--green.btn--small(href=`product/${product._id}`)
+              svg.card__icon
+                use(xlink:href='img/icons.svg#icon-shopping-cart')
+            a.btn.btn--green.btn--small(href=`product/${product._id}`) Mua

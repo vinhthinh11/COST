@@ -72,11 +72,14 @@ const productRoute = require('./routes/productRoute');
 const reviewProductRoute = require('./routes/reviewProductRoute');
 const userProductRoute = require('./routes/userProductRoute');
 const orderRoute = require('./routes/orderRoute');
+// View cho trang index của san pham
+const viewProductRoute = require('./routes/viewProductRoute');
 
 app.use('/api/v1/product', productRoute);
 app.use('/api/v1/userProduct', userProductRoute);
 app.use('/api/v1/productReview', reviewProductRoute);
 app.use('/api/v1/order', orderRoute);
+app.use('/products/', viewProductRoute);
 
 // Route xu ly tours
 app.use('/api/v1/tours', tourRoute);
