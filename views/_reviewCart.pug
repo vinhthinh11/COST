@@ -8,9 +8,9 @@ mixin overviewReview(review)
       -let star =0
       while star <review.rating
         svg.reviews__star.reviews__star--active
-          use(xlink:href='/img/icons.svg#icon-star')
+          use(xlink:href='/img/icons.svg#icon-star-rating')
         - star++
       while star <6
         svg.reviews__star.reviews__star--inactive
-          use(xlink:href='/img/icons.svg#icon-star')
+          use(xlink:href='/img/icons.svg#icon-star-rating')
         - star++

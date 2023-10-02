@@ -12,7 +12,9 @@ mongoose.connect(databaseConnectionString, { useNewUrlParser: true });
 
 const server = app.listen(process.env.PORT || 3000, () => {
   // eslint-disable-next-line no-console
-  console.log(`server is running in ${process.env.NODE_ENV} mode`);
+  console.log(
+    `running in ${process.env.NODE_ENV} mode http://localhost:${process.env.PORT}`
+  );
 });
 // xy ly unhandledRejection
 process.on('unhandledRejection', err => {

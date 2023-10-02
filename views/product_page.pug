@@ -14,13 +14,20 @@ block content
             p.card__text= product.summary
           .card__footer
             p
-              span.card__footer-value Giá: #{product.price}đ
-              |&nbsp;&nbsp;
+              span.card__footer-value Giá: #{product.price} đ
             p.card__ratings
-              span.card__footer-value #{product.ratingsAverage}
-              |&nbsp;&nbsp;
-              span.card__footer-text rating (#{product.ratingsQuantity})
-            a.btn.btn--green.btn--small(href=`product/${product._id}`)
-              svg.card__icon
-                use(xlink:href='img/icons.svg#icon-shopping-cart')
-            a.btn.btn--green.btn--small(href=`product/${product._id}`) Mua
+              svg.reviews__star.reviews__star--active
+               use(xlink:href='/img/icons.svg#icon-star-rating')
+              svg.reviews__star.reviews__star--active
+               use(xlink:href='/img/icons.svg#icon-star-rating')
+              svg.reviews__star.reviews__star--active
+               use(xlink:href='/img/icons.svg#icon-star-rating')
+              svg.reviews__star.reviews__star--active
+               use(xlink:href='/img/icons.svg#icon-star-rating')
+              svg.reviews__star.reviews__star--inactive
+               use(xlink:href='/img/icons.svg#icon-star-rating')
+            p.contain-btn
+              a.btn.btn--green.btn--small(href=`product/${product._id}`)
+                svg.card__icon
+                  use(xlink:href='img/icons.svg#icon-shopping-cart')
+              a.btn.btn--green.btn--small(href=`product/${product._id}`) Mua
