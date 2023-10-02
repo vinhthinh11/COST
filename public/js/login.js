@@ -11,7 +11,7 @@ export const login = async function (email, password) {
     if (res.status === 200) {
       showAlert('success', 'Đăng nhập thành công');
       setTimeout(function () {
-        location.assign('/');
+        location.assign('/products');
       }, 2000);
     }
   } catch (errors) {

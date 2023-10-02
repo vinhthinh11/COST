@@ -1,0 +1,26 @@
+extends ../profile
+block forManage
+  table(style='width:100%')
+    tr
+      th STT
+      th Hình ảnh
+      th Tên sản phẩm
+      th Giá cả
+      th Số lượng
+      th 
+      th 
+    - let x =0;
+    each prod in products
+      tr
+        td= ++x
+        td 
+          img.product-img(src=`/img/product/${prod.imageUrl}`)
+        td= prod.name
+        td= prod.price
+        td= prod.quantity
+        td
+          a(class='btn btn--green btn--tiny' href=`/products/update/${prod._id}`) Update 
+        td 
+          a(class='btn btn--red btn--tiny' href=`/products/update/${prod._id}`) Delete
+
+  

@@ -12,6 +12,7 @@ router.get(
   authController.isLoggedIn,
   viewController.getOverview
 );
+router.get('/constructing', viewController.getConstructing);
 router.get(
   '/tour/:id',
   authController.isLoggedIn,

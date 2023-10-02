@@ -54,3 +54,8 @@ exports.getAllMyBookings = async (req, res, next) => {
   // 3> co tours render cac tour ra
   return res.status(200).render('overview', { title: 'My booking', tours });
 };
+exports.getConstructing = (req, res, next) => {
+  res
+    .status(200)
+    .render('constructing', { title: 'This page is under construction' });
+};
