@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Product = require('./productSchema');
+// const User = require('./userProductSchema');
 
 const review = new mongoose.Schema(
   {
@@ -15,7 +16,7 @@ const review = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User',
+      ref: 'UserProduct',
       required: [true, 'review must belong to a user'],
     },
     product: {
@@ -33,7 +34,9 @@ const review = new mongoose.Schema(
 
 review.pre(/^find/, async function (next) {
   this.populate([
-    { path: 'user', select: 'name email photo' },
+    { path: 'user', select: 'name photo' },
+    { path: 'product', select: 'name imageUrl' },
+    // { path: 'user', select: 'name photo' },
     // { path: 'tour', select: 'name' },
   ]);
   next();

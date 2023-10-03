@@ -7,6 +7,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 // const sendEmail = require('../utils/emailSender');
 const Email = require('../utils/emailSender');
+const UserProduct = require('../Models/userProductSchema');
 
 function createJWTToken(payload) {
   return jwt.sign({ id: payload }, process.env.JWT_SECRET, {
@@ -25,17 +26,17 @@ const createAndSendToken = (user, message, status, res) => {
   };
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
   res.cookie('jwt', token, cookieOptions);
-  res.status(status).json({ message, user, token });
+  res.status(status).json({ message, user, token }); //gui gia tri lai cho axios nhan
 };
 exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create(req.body);
+  const newUser = await UserProduct.create(req.body);
   const url = `${req.protocol}://${req.get('host')}/me`;
   await new Email(newUser, url).sendWelcome();
-  createAndSendToken(newUser, 'Tao user moi thanh cong', 201, res);
+  createAndSendToken(newUser, 'Tao user moi thanh cong', 200, res);
 });
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  const checkuser = await User.findOne({ email }).select('+password');
+  const checkuser = await UserProduct.findOne({ email }).select('+password');
   if (!checkuser) throw new AppError(400, 'User not found');
   const checkpassword = await bcrypt.compare(password, checkuser.password);
   if (!checkpassword) {
@@ -56,10 +57,10 @@ exports.protect = catchAsync(async (req, res, next) => {
     token = req.cookies.jwt;
   }
   if (!token)
-    next(new AppError(400, 'Ban chua dang nhap de thuc hien chuc nang'));
+    next(new AppError(400, 'Bạn phải đăng nhập để thực hiện chức năng này'));
   const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  const currentUser = await User.findById(decode.id);
-  if (!currentUser) next(new AppError(400, 'User khongt on tai'));
+  const currentUser = await UserProduct.findById(decode.id);
+  if (!currentUser) next(new AppError(400, 'User không tồn tại'));
   req.user = currentUser;
   res.locals.user = currentUser;
   next();
@@ -73,7 +74,7 @@ exports.isLoggedIn = async (req, res, next) => {
 
       if (decode.exp < Date.now() / 1000) return next();
 
-      const currentUser = await User.findById(decode.id);
+      const currentUser = await UserProduct.findById(decode.id);
       if (!currentUser) return next();
       res.locals.user = currentUser;
       return next();

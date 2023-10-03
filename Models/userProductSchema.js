@@ -6,8 +6,9 @@ const bcrypt = require('bcryptjs');
 const userProduct = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please enter name'],
+    default: 'unknown',
     trim: true,
+    required: [true, 'Please provide a name'],
   },
   email: {
     type: String,
@@ -44,6 +45,8 @@ const userProduct = new mongoose.Schema({
   },
   photo: {
     type: String,
+    default: 'default.jpg',
+    required: [true, 'user must have a photo'],
   },
   resetPasswordToken: { type: String, select: false },
   exprirePasswordToken: { type: Date, select: false },

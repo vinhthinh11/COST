@@ -3,6 +3,7 @@ const Tour = require('../Models/toursSchema');
 const User = require('../Models/userSchema');
 const Booking = require('../Models/bookingSchema');
 const catchAsync = require('../utils/catchAsync');
+const UserProduct = require('../Models/userProductSchema');
 
 exports.getOverview = catchAsync(async (req, res) => {
   // 1> Get all tour data from tour collectiong
@@ -32,7 +33,7 @@ exports.getProfile = catchAsync(async (req, res) => {
   res.status(200).render('profile', { title: 'Profile' });
 });
 exports.updateUserData = catchAsync(async (req, res, next) => {
-  const doc = await User.findByIdAndUpdate(
+  const doc = await UserProduct.findByIdAndUpdate(
     req.user.id,
     {
       name: req.body.name,

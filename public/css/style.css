@@ -1410,6 +1410,7 @@ body {
 table {
   border-collapse: collapse;
   border-spacing: 0px;
+  height: fit-content;
 }
 table,
 th,

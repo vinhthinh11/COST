@@ -1,17 +1,29 @@
 /* eslint-disable */
-import { login, logOut } from './login.js';
+import { login, logOut, signup } from './login.js';
 import { displayMap } from './mapbox.js';
 import { updateUserData } from './updateUserData.js';
 import bookTour from './bookTour.js';
 
-const form = document.querySelector('.form--login');
+const formLogin = document.querySelector('.form--login');
 // co from submit thi moi add listeners
-if (form) {
-  form.addEventListener('submit', e => {
+if (formLogin) {
+  formLogin.addEventListener('submit', e => {
     e.preventDefault();
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
     login(email, password);
+  });
+}
+const formSignup = document.querySelector('.form--signup');
+// co from submit thi moi add listeners
+if (formSignup) {
+  formSignup.addEventListener('submit', e => {
+    e.preventDefault();
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
+    const passwordConfirm = document.querySelector('#passwordConfirm').value;
+    console.log(email, password, passwordConfirm);
+    signup(email, password, passwordConfirm);
   });
 }
 const updateForm = document.querySelector('.form-user-data');

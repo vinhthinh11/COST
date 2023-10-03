@@ -12,10 +12,28 @@ export const login = async function (email, password) {
       showAlert('success', 'Đăng nhập thành công');
       setTimeout(function () {
         location.assign('/products');
-      }, 2000);
+      }, 1500);
     }
   } catch (errors) {
-    showAlert('error', 'Đăng nhập thất bại');
+    showAlert('error', errors.response.data.message);
+  }
+};
+export const signup = async function (email, password, passwordConfirm) {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: '/api/v1/users/signup',
+      data: { email, password, passwordConfirm },
+    });
+    // neu dang nhap thanh cong thi chuyen qua trang hompage
+    if (res.status === 200) {
+      showAlert('success', 'Đăng ký thành công');
+      setTimeout(function () {
+        location.assign('/me');
+      }, 1500);
+    }
+  } catch (errors) {
+    showAlert('error', errors.response.data.message);
   }
 };
 export const logOut = async function () {
@@ -29,9 +47,9 @@ export const logOut = async function () {
       showAlert('success', 'Đăng xuất thành công');
       setTimeout(function () {
         location.reload(true);
-      }, 2000);
+      }, 1500);
     }
   } catch (errors) {
-    showAlert('error', 'Đăng xuất thất bại');
+    showAlert('error', errors.response.data.message);
   }
 };
