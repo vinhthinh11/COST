@@ -10,6 +10,9 @@ router
   .patch(userProductController.updateUser)
   .delete(userProductController.deleteUser);
 
-router.route('/').post(userProductController.addUser);
+router
+  .route('/')
+  .post(userProductController.addUser)
+  .get(userProductController.getAllUsers);
 
 module.exports = router;

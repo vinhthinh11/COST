@@ -48,7 +48,7 @@ exports.findUser = async (req, res, next) => {
 
   res.status(200).json({ message: 'Find product success', doc });
 };
-exports.findAllUser = async (req, res, next) => {
+exports.getAllUsers = async (req, res, next) => {
   const doc = await UserProduct.find();
   if (!doc)
     return res.status(404).json({ message: 'chua co san pham nao de tim' });

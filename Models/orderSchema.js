@@ -6,7 +6,7 @@ const orderSchema = new Schema(
   {
     user: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User',
+      ref: 'UserProduct',
       required: [true, 'review must belong to a user'],
     },
     address: { type: String, required: [true, 'order must has a address'] },
@@ -31,6 +31,10 @@ orderSchema.pre('save', async function (next) {
   this.products.forEach(p => {
     this.totalPrice += p.product.price * p.quantity;
   });
+  next();
+});
+orderSchema.pre(/^find/, async function (next) {
+  this.populate({ path: 'user', select: 'email' });
   next();
 });
 const Order = mongoose.model('Order', orderSchema);

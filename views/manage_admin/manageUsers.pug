@@ -16,7 +16,11 @@ block forManage
         td 
           img.product-img(src=`/img/users/${user.photo}`)
         td= user.name
-        td= user.active
+        td
+          if user.active
+            input(type="checkbox", checked)
+          else
+            input(type="checkbox")
         td= user.role
         td
           a(class='btn btn--green btn--tiny' href=`/users/update/${user._id}`) Update 

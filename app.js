@@ -78,7 +78,7 @@ const viewProductRoute = require('./routes/viewProductRoute');
 app.use('/api/v1/product', productRoute);
 app.use('/api/v1/userProduct', userProductRoute);
 app.use('/api/v1/productReview', reviewProductRoute);
-app.use('/api/v1/order', orderRoute);
+app.use('/api/v1/orders', orderRoute);
 app.use('/products/', viewProductRoute);
 
 // Route xu ly tours

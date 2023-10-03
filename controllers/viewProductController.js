@@ -34,7 +34,7 @@ exports.manageUsers = async (req, res, next) => {
 };
 exports.manageReviews = async (req, res, next) => {
   const reviews = await Review.find();
-  if (reviews.length <= 0) return next(new AppError(400, 'chưa có review'));
+  if (reviews.length <= 0) return next(new AppError(400, 'Chưa có review'));
   // 3> co tours render cac tour ra
   return res.status(200).render('./manage_admin/manageReviews', {
     title: 'Quản lý bình luận',
@@ -43,8 +43,7 @@ exports.manageReviews = async (req, res, next) => {
 };
 exports.manageOrders = async (req, res, next) => {
   const orders = await Order.find();
-  if (orders.length <= 0) return next(new AppError(400, 'Chua co order'));
-  // 3> co tours render cac tour ra
+  if (orders.length <= 0) return next(new AppError(400, 'Chưa có order'));
   return res.status(200).render('./manage_admin/manageOrders', {
     title: 'Quản lý đơn hàng',
     orders,

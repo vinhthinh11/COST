@@ -1,5 +1,6 @@
 extends ../profile
 block forManage
+  
   table(style='width:100%')
     tr
       th STT
@@ -8,6 +9,7 @@ block forManage
       th Giá cả
       th Số lượng
       th 
+        a(class='btn btn--blue btn--tiny' href=`/products/update`) Add new product
       th 
     - let x =0;
     each prod in products

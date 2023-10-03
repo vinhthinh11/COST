@@ -237,10 +237,15 @@ body {
 .btn--green {
   background-color: #1da1f2;
 }
+.btn--blue {
+  background-color: #55c57a;
+}
 .btn--green::after {
   background-color: #55c57a;
 }
-
+.no_upper {
+  text-transform: none !important;
+}
 .btn--small {
   padding: 1.25rem 2rem !important;
   font-size: 1.4rem !important;
