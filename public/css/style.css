@@ -30,7 +30,7 @@ html {
 body {
   line-height: 1.6;
   font-weight: 300;
-  font-family: 'Tahoma', sans-serif;
+  font-family: "Tahoma", sans-serif;
   color: #080101;
   min-height: 100vh;
   display: -webkit-box;
@@ -608,7 +608,7 @@ body {
 }
 
 .marker {
-  background-image: url('../img/pin.png');
+  background-image: url("../img/pin.png");
   background-size: cover;
   width: 32px;
   height: 40px;
@@ -621,7 +621,7 @@ body {
 
 .mapboxgl-popup-content {
   text-align: center;
-  font-family: 'Tahoma', sans-serif;
+  font-family: "Tahoma", sans-serif;
   padding: 1.5rem !important;
   font-size: 1.4rem;
   -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15) !important;
@@ -1135,7 +1135,7 @@ body {
 .admin-nav__heading {
   margin: 0 5rem 1.5rem 4rem;
   padding-bottom: 3px;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   text-transform: uppercase;
   color: #f2f2f2;
   border-bottom: 1px solid currentColor;
