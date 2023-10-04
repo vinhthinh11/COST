@@ -5,8 +5,10 @@ const authController = require('../controllers/authController');
 const router = express.Router();
 
 //  lay trang san pham va in ra cho
-router.use(authController.protect);
 router.get('/', viewProductController.getProductPage);
+router.get('/:id', viewProductController.getProductDetail);
+
+router.use(authController.protect);
 router.get('/manageProducts', viewProductController.manageProducts);
 router.get('/manageUsers', viewProductController.manageUsers);
 router.get('/manageReviews', viewProductController.manageReviews);

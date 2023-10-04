@@ -1,0 +1,24 @@
+extends base
+include _reviewCart
+block content
+  section.section-product
+    .header__normal
+      .header__hero-normal
+      img.header__hero-img(src=`/img/product/${product.imageUrl}`, alt=`${product.name}`)
+    .header__normal
+      h1.heading-primary
+        span= product.name
+      div.product_description
+          p=product.description
+      div.product_description
+        label(for="quantity") Quantity
+        button#minus.btn_price(type="button") -
+        input(type="number" name="quantity" value=1)
+        button#plus.btn_price(type="button") +
+      div.product_description
+        span Price 
+        span.overview-box__tex= `${product.price} đồng`
+      a.btn_price.add_to_cart(href="#") Add to card 
+      a.btn_price.buy_now(href="#") Buy now
+
+  

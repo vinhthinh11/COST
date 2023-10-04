@@ -49,3 +49,11 @@ exports.manageOrders = async (req, res, next) => {
     orders,
   });
 };
+exports.getProductDetail = async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) return next(new AppError(400, 'Sản phẩm không tồn tại'));
+  return res.status(200).render('product_detail', {
+    product,
+    title: `Chi tiết ${product.name}`,
+  });
+};

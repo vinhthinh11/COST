@@ -30,7 +30,7 @@ html {
 body {
   line-height: 1.6;
   font-weight: 300;
-  font-family: "Tahoma", sans-serif;
+  font-family: 'Tahoma', sans-serif;
   color: #080101;
   min-height: 100vh;
   display: -webkit-box;
@@ -288,6 +288,28 @@ body {
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
+.btn_price {
+  background: #1da1f2;
+  width: fit-content;
+  padding: 1rem 1.8rem;
+  border: none;
+  border-radius: 10px;
+  margin: 0 1rem;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+  flex: 1;
+}
+.add_to_cart,
+.buy_now {
+  align-self: center;
+  width: 90%;
+  margin: 1rem 90%;
+}
+.buy_now {
+  background: #5a31f4;
+}
 
 .btn-text:hover {
   background-color: #55c57a;
@@ -391,7 +413,35 @@ body {
   background-image: linear-gradient(to right bottom, #dfcb92c7, #551d1d00);
   opacity: 0.7;
 }
-
+.header__hero-normal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.header__normal {
+  width: 50%;
+  height: 50%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.section-product {
+  display: flex;
+  width: 100%;
+}
+.product_description {
+  font-size: 2rem;
+  padding: 1rem 2rem;
+  color: #2e864b;
+}
+.product_description input {
+  width: min-content;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #999;
+  text-align: center;
+}
 .heading-box {
   position: absolute;
   bottom: 13vw;
@@ -608,7 +658,7 @@ body {
 }
 
 .marker {
-  background-image: url("../img/pin.png");
+  background-image: url('../img/pin.png');
   background-size: cover;
   width: 32px;
   height: 40px;
@@ -621,7 +671,7 @@ body {
 
 .mapboxgl-popup-content {
   text-align: center;
-  font-family: "Tahoma", sans-serif;
+  font-family: 'Tahoma', sans-serif;
   padding: 1.5rem !important;
   font-size: 1.4rem;
   -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15) !important;
