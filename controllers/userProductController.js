@@ -2,6 +2,7 @@ const multer = require('multer'); // handler image
 const sharp = require('sharp');
 const AppError = require('../utils/AppError');
 const UserProduct = require('../Models/userProductSchema');
+const handler = require('./handlerFactory');
 
 // 2> Store file on memory to resize it's size, the image will be stored on buffer (req.file.buffer)
 const multerStorage = multer.memoryStorage();
@@ -62,15 +63,7 @@ exports.addUser = async (req, res, next) => {
   res.status(200).json({ message: 'Add User success', doc });
 };
 // sua
-exports.updateUser = async (req, res, next) => {
-  const doc = await UserProduct.findByIdAndUpdate(res.params.id, req.body);
-  if (!doc)
-    return res
-      .status(404)
-      .json({ message: 'khong tim thay san pham de cap nhat' });
-
-  res.status(200).json({ message: 'Update User success', doc });
-};
+exports.updateMe = handler.updateOne(UserProduct);
 // xoa
 exports.deleteUser = async (req, res, next) => {
   const doc = await UserProduct.findByIdAndDelete(res.params.id);

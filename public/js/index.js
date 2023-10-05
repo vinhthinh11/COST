@@ -22,7 +22,6 @@ if (formSignup) {
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
     const passwordConfirm = document.querySelector('#passwordConfirm').value;
-    console.log(email, password, passwordConfirm);
     signup(email, password, passwordConfirm);
   });
 }
