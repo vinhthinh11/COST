@@ -32,7 +32,9 @@ if (updateForm) {
     const form = new FormData();
     form.append('name', document.querySelector('#name').value);
     form.append('email', document.querySelector('#email').value);
-    form.append('photo', document.querySelector('#photo').files[0]);
+    // can kiem tra xem photo co gia tri moi hay khong => co thi update
+    if (document.querySelector('#photo').files[0] !== undefined)
+      form.append('photo', document.querySelector('#photo').files[0]);
     updateUserData(form, 'data');
   });
 }

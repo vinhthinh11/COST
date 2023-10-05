@@ -1,0 +1,24 @@
+extends ../profile
+block forManage 
+  .user-view__content
+    .user-view__form-container
+      h2.heading-secondary.ma-bt-md Add new Product
+      form.form.form-user-data
+        .form__group
+          label.form__label(for='name') Tên sản phẩm
+          input#name.form__input(type='text' required name='name')
+        .form__group.ma-bt-md
+          label.form__label(for='quantity') Số lượng
+          input#quantity.form__input(type='number', required name='quantity')
+        .form__group.ma-bt-md
+          label.form__label(for='unit') Đơn vị tính
+          input#unit.form__input(type='text', required name='unit')
+        .form__group.ma-bt-md
+          label.form__label(for='price') Giá sản phẩm
+          input#price.form__input(type='number', required name='price')
+        .form__group.form__photo-upload
+          img.form__user-photo(src=`/img/product/default.png`, alt='product photo')
+          input.form__upload#imageUrl(type="file" name='imageUrl' accept='image/*')
+          label(for="imageUrl") Hình ảnh
+        .form__group.right
+          button.btn.btn--small.btn--green Thêm mới

@@ -8,6 +8,7 @@ const router = express.Router();
 router.use(authController.isLoggedIn);
 router.get('/:id', viewProductController.getProductDetail);
 router.get('/', viewProductController.getProductPage);
+router.get('/addProduct', viewProductController.getAddProductPage);
 
 router.use(authController.protect, authController.restrict('admin'));
 router.get('/manageProducts', viewProductController.manageProducts);

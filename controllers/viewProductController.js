@@ -50,7 +50,7 @@ exports.manageOrders = async (req, res, next) => {
   });
 };
 exports.getProductDetail = async (req, res, next) => {
-  if (req.params.id.startsWith('m')) return next();
+  if (/^a|^m/.test(req.params.id)) return next();
   const product = await Product.findById(req.params.id);
   const reviews = await Review.find({ product: product.id });
   if (!product) return next(new AppError(400, 'Sản phẩm không tồn tại'));
@@ -60,3 +60,7 @@ exports.getProductDetail = async (req, res, next) => {
     title: `Chi tiết ${product.name}`,
   });
 };
+exports.getAddProductPage = async (req, res, next) =>
+  res.status(200).render('./manage_admin/addNewProducts', {
+    title: `Trang thêm sản phẩm`,
+  });

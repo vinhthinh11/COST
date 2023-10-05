@@ -2,15 +2,17 @@ const express = require('express');
 const viewController = require('../controllers/viewController');
 const authController = require('../controllers/authController');
 const bookingController = require('../controllers/bookingController');
+const viewProductRoute = require('./viewProductRoute');
 
 const router = express.Router();
 
 //load index page
 router.get(
   '/',
-  bookingController.createBookingCheckout,
-  authController.isLoggedIn,
-  viewController.getOverview
+  viewProductRoute
+  // bookingController.createBookingCheckout,
+  // authController.isLoggedIn,
+  // viewController.getOverviewviewProductRoutes
 );
 router.get('/constructing', viewController.getConstructing);
 router.get(
