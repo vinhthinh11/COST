@@ -1,7 +1,5 @@
 const multer = require('multer'); // handler image
 const sharp = require('sharp');
-const User = require('../Models/userSchema');
-const handler = require('./handlerFactory');
 const AppError = require('../utils/AppError');
 const UserProduct = require('../Models/userProductSchema');
 

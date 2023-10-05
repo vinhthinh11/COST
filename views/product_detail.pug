@@ -1,5 +1,8 @@
 extends base
 include _reviewCart
+mixin reviewProduct(reviews)
+  //- for each review of reviews render the rating and the comments for that review
+
 block content
   section.section-product
     .header__normal__image
@@ -10,12 +13,44 @@ block content
       div.product_description
           p=product.description
       div.product_description
-        label(for="quantity") Quantity
-        button#minus.btn_price(type="button") -
-        input(type="number" name="quantity" value=1)
-        button#plus.btn_price(type="button") +
+        .product_quantity Quantity
+        .product_quantity_input
+          button#minus.btn_price.fit(type="button") -
+          input(readonly="readonly" type="number" min='1' max=`${product.quantity}` name="quantity" value=1 id='product_quantity')
+          spane=` /${product.quantity}`
+          button#plus.btn_price.fit(type="button") +
       div.product_description
         span Price:
         span.overview-box__tex= `${product.price} đồng`
       a.btn_price.add_to_cart(href="#") Add to card 
       a.btn_price.buy_now(href="#") Buy now
+    .header__normal
+      h1.card_review.headerReview Customer Reviews
+      each review in reviews
+        .card_review
+          .userDispay 
+            img.product-img(src=`/img/users/${review.user.photo}`)
+            div.user_description
+              span= review.user.name
+          span.dayReview= review.createdAt.toLocaleDateString("vi-VN")
+        .userRating 
+          - for(let i =0;i<review.rating;i++)
+              svg.reviews__star.reviews__star--active
+                  use(xlink:href='/img/icons.svg#icon-star-rating')
+        .userComment.card_review
+          span= review.review
+  script.
+    const inputValue = document.getElementById('product_quantity');
+    const max = inputValue.max;
+    const increase = document.getElementById('plus');
+    increase.addEventListener('click', e => {
+      if(+inputValue.value<max) {
+      inputValue.value = +inputValue.value + 1;
+    }
+    });
+    const decrease = document.getElementById('minus');
+    decrease.addEventListener('click', e => {
+      if(inputValue.value>1) {
+      inputValue.value = +inputValue.value +-1;
+      }
+    });

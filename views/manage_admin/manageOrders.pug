@@ -15,7 +15,7 @@ block forManage
         td= ++x
         td.no_upper= order.user.email
         td= order.totalPrice
-        td= order.created_at.toLocaleDateString("vi-VN" )
+        td= order.created_at.toLocaleDateString("vi-VN")
         td
           a(class='btn btn--green btn--tiny' href=`/products/orders/${order._id}`) Chi tiết 
         td

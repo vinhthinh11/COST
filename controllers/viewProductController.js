@@ -52,9 +52,11 @@ exports.manageOrders = async (req, res, next) => {
 exports.getProductDetail = async (req, res, next) => {
   if (req.params.id.startsWith('m')) return next();
   const product = await Product.findById(req.params.id);
+  const reviews = await Review.find({ product: product.id });
   if (!product) return next(new AppError(400, 'Sản phẩm không tồn tại'));
   return res.status(200).render('product_detail', {
     product,
+    reviews,
     title: `Chi tiết ${product.name}`,
   });
 };

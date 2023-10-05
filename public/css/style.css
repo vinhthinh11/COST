@@ -1,5 +1,7 @@
 :root {
   --section-rotate: 9vw;
+  --text-color: #545454;
+  --text-size: 20px;
 }
 
 ::-moz-selection {
@@ -295,12 +297,15 @@ body {
   padding: 1rem 1.8rem;
   border: none;
   border-radius: 10px;
-  margin: 0 3rem;
   text-align: center;
   color: #fff;
   text-decoration: none;
-  font-size: 1.5rem;
+  font-size: var(--text-size);
   flex: 1;
+}
+.btn_price.fit {
+  width: min-content;
+  max-width: 50px;
 }
 .btn_price:hover {
   cursor: pointer;
@@ -430,26 +435,30 @@ input::-webkit-inner-spin-button {
 }
 .header__normal {
   width: 50%;
+  min-width: 370px;
   height: 50%;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 6rem;
+  margin-left: 3rem;
+  max-height: 100vh;
 }
 .header__normal__image {
   width: 50%;
   flex: 1;
   height: auto;
-  max-height: 500px;
   max-width: 500px;
 }
 .header__normal__image img {
   border-radius: 20px;
+  object-fit: cover;
+  min-width: 370px;
+  max-height: 100vh;
 }
 .section-product {
   width: 100%;
-  padding: 2rem 10rem;
+  padding: 2rem;
   display: flex;
 }
 .product_description {
@@ -457,9 +466,51 @@ input::-webkit-inner-spin-button {
   padding: 1rem 2rem;
   color: #545454;
 }
+.product_quantity_input {
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.userRating {
+  margin: auto;
+  display: flex;
+}
+.userDispay {
+  display: flex;
+}
+userRating * {
+  flex: 1;
+}
+.headerReview {
+  margin-left: 1rem;
+  display: flex;
+  align-self: center;
+}
+.card_review {
+  font-family: Tahoma, sans-serif;
+  font-size: 20px;
+  color: var(--text-color);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+h1.card_review {
+  margin-bottom: 2rem;
+}
+.dayReview {
+  text-align: right;
+  align-items: end;
+}
+.product_quantity {
+  display: block;
+}
 .product_description input {
   width: min-content;
-  padding: 1rem;
+  font-size: inherit;
+  font-weight: inherit;
+  box-sizing: border-box;
   border-radius: 10px;
   border: 1px solid #999;
   text-align: center;
