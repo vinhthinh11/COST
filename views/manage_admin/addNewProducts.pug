@@ -3,7 +3,7 @@ block forManage
   .user-view__content
     .user-view__form-container
       h2.heading-secondary.ma-bt-md Add new Product
-      form.form(class=`${product?"formAddProduct":"formUpdateProduct"}`)
+      form.form(class=`${product?"formUpdateProduct":"formAddProduct"}`)
         .form__group
           label.form__label(for='name') Tên sản phẩm
           input#name.form__input.product(type='text' required name='name' value=`${product?product.name:""}`)

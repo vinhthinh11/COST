@@ -1,6 +1,7 @@
 const multer = require('multer');
 const sharp = require('sharp');
 const Product = require('../Models/productSchema');
+const Review = require('../Models/reviewProductSchema');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 
@@ -59,7 +60,8 @@ exports.updateProduct = async (req, res, next) => {
 // xoa
 exports.deleteProduct = async (req, res, next) => {
   const doc = await Product.findByIdAndDelete(req.params.id);
+  // sau khi delete san pham thi cac reviews lien quan toi san pham delete theo
+  await Review.deleteMany({ product: req.params.id });
   if (!doc) return res.status(404).json({ message: 'khong tim thay san pham' });
-
   res.status(200).json({ message: 'Delete product success', doc });
 };

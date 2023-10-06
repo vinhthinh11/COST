@@ -93,8 +93,8 @@ if (fomrUpdateProduct) {
   });
 }
 window.addEventListener('click', e => {
-  e.preventDefault();
   if (e.target.id == 'delete') {
+    e.preventDefault();
     if (confirm('Bạn có muốn xoá sản phẩm này không ?') == true)
       deleteProduct(e.target.getAttribute('href'));
   }
