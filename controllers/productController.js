@@ -58,7 +58,7 @@ exports.updateProduct = async (req, res, next) => {
 };
 // xoa
 exports.deleteProduct = async (req, res, next) => {
-  const doc = await Product.findByIdAndDelete(res.params.id);
+  const doc = await Product.findByIdAndDelete(req.params.id);
   if (!doc) return res.status(404).json({ message: 'khong tim thay san pham' });
 
   res.status(200).json({ message: 'Delete product success', doc });

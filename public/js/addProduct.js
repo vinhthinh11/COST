@@ -15,7 +15,7 @@ export const addProduct = async function (data) {
         location.assign('/');
       }, 1500);
     } else {
-      howAlert('error', 'Thêm mới sản phẩm thất bại');
+      showAlert('error', 'Thêm mới sản phẩm thất bại');
     }
   } catch (errors) {
     showAlert('error', errors.response.data.message);
@@ -41,9 +41,43 @@ export const updateProduct = async function (data) {
     showAlert('error', errors.response.data.message);
   }
 };
+const deleteProduct = async function (url) {
+  try {
+    const res = await axios({
+      method: 'delete',
+      url,
+    });
+    if (res.status === 200) {
+      showAlert('success', 'Xoá sản phẩm thành công');
+      setTimeout(function () {
+        location.reload(true);
+      }, 1500);
+    } else {
+      showAlert('error', 'Xoá sản phẩm thành công');
+    }
+  } catch (errors) {
+    showAlert('error', errors.response.data.message);
+  }
+};
 const fomrAddProduct = document.querySelector('.formAddProduct');
 if (fomrAddProduct) {
   fomrAddProduct.addEventListener('submit', e => {
+    e.preventDefault();
+    const form = new FormData();
+    form.append('name', document.querySelector('#name').value);
+    form.append('quantity', document.querySelector('#quantity').value);
+    form.append('unit', document.querySelector('#unit').value);
+    form.append('price', document.querySelector('#price').value);
+    form.append('description', document.querySelector('#description').value);
+    // can kiem tra xem photo co gia tri moi hay khong => co thi update
+    if (document.querySelector('#imageUrl').files[0] !== undefined)
+      form.append('imageUrl', document.querySelector('#imageUrl').files[0]);
+    addProduct(form);
+  });
+}
+const fomrUpdateProduct = document.querySelector('.formUpdateProduct');
+if (fomrUpdateProduct) {
+  fomrUpdateProduct.addEventListener('submit', e => {
     e.preventDefault();
     const form = new FormData();
     form.append('name', document.querySelector('#name').value);
@@ -58,3 +92,10 @@ if (fomrAddProduct) {
     updateProduct(form);
   });
 }
+window.addEventListener('click', e => {
+  e.preventDefault();
+  if (e.target.id == 'delete') {
+    if (confirm('Bạn có muốn xoá sản phẩm này không ?') == true)
+      deleteProduct(e.target.getAttribute('href'));
+  }
+});
