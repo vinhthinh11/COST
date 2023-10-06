@@ -7,13 +7,11 @@ block forManage
       form.form(class=`${doc?"formUpdateReview":"formAddReview"}`)
         .form__group
           label.form__label(for='name') Rating
-          input#name.form__input.product(type='text' required name='name' value=`${doc?doc.rating:""}`)
+          input#rating.form__input.product(type='text' required name='name' value=`${doc?doc.rating:""}`)
         .form__group.ma-bt-md
           label.form__label(for='description')  Review
-          textarea#description.form__input.product(type='number', required name='description' cols="30", rows="10")=`${doc?doc.review:""}`
+          textarea#review.form__input.product(type='number', required name='description' cols="30", rows="10")=`${doc?doc.review:""}`
         .form__group.right
-          input#reviewId(type="hidden" value=`${doc?doc.id:""}`)
-          input#userId(type="hidden" value=`${doc?doc.user.id:""}`)
-          input#productId(type="hidden" value=`${doc?doc.product.id:""}`)
+          input#reviewId(type="hidden" value=`${doc?doc._id:""}`)
           button.btn.btn--small.btn--green= doc?"Cập nhật":"Thêm mới"
-  script(src="/js/addProduct.js" type="module") 
+  script(src="/js/reviewHandler.js" type="module") 

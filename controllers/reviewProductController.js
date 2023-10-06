@@ -23,17 +23,18 @@ exports.addProductReview = async (req, res, next) => {
 };
 // sua
 exports.updateProductReview = async (req, res, next) => {
-  const doc = await ReviewProduct.findByIdAndUpdate(res.params.id, req.body);
+  const doc = await ReviewProduct.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
   if (!doc)
     return res
       .status(404)
       .json({ message: 'khong tim thay san pham de cap nhat' });
-
   res.status(200).json({ message: 'Update review success', doc });
 };
 // xoa
 exports.deleteProductReview = async (req, res, next) => {
-  const doc = await ReviewProduct.findByIdAndDelete(res.params.id);
+  const doc = await ReviewProduct.findByIdAndDelete(req.params.id);
   if (!doc) return res.status(404).json({ message: 'khong tim thay san pham' });
 
   res.status(200).json({ message: 'Delete review success', doc });

@@ -41,7 +41,7 @@ export const updateProduct = async function (data) {
     showAlert('error', errors.response.data.message);
   }
 };
-const deleteProduct = async function (url) {
+export const deleteProduct = async function (url) {
   try {
     const res = await axios({
       method: 'delete',
