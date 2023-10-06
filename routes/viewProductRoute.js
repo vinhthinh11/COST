@@ -11,6 +11,8 @@ router.get('/', viewProductController.getProductPage);
 // lay form de them san pham
 router.get('/addProduct', viewProductController.getAddProductPage);
 router.get('/update/:id', viewProductController.getUpdateProductPage);
+// lay form de them review cho san pham
+router.get('/reviews', viewProductController.getAddProductPage);
 
 router.use(authController.protect, authController.restrict('admin'));
 router.get('/manageProducts', viewProductController.manageProducts);

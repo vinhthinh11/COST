@@ -1,0 +1,19 @@
+extends addNewProducts
+block forManage
+  .user-view__content
+    .user-view__form-container
+      h2.heading-secondary.ma-bt-md= title
+      img(src=`/img/product/${doc.product.imageUrl}`, alt="product image")
+      form.form(class=`${doc?"formUpdateReview":"formAddReview"}`)
+        .form__group
+          label.form__label(for='name') Rating
+          input#name.form__input.product(type='text' required name='name' value=`${doc?doc.rating:""}`)
+        .form__group.ma-bt-md
+          label.form__label(for='description')  Review
+          textarea#description.form__input.product(type='number', required name='description' cols="30", rows="10")=`${doc?doc.review:""}`
+        .form__group.right
+          input#reviewId(type="hidden" value=`${doc?doc.id:""}`)
+          input#userId(type="hidden" value=`${doc?doc.user.id:""}`)
+          input#productId(type="hidden" value=`${doc?doc.product.id:""}`)
+          button.btn.btn--small.btn--green= doc?"Cập nhật":"Thêm mới"
+  script(src="/js/addProduct.js" type="module") 

@@ -1,14 +1,17 @@
 const ReviewProduct = require('../Models/reviewProductSchema');
 
 // tim
-exports.findProductReview = async (req, res, next) => {
+exports.getReviewProduct = async (req, res, next) => {
   const doc = await ReviewProduct.findById(req.params.id);
   if (!doc)
     return res
       .status(404)
       .json({ message: 'khong ton tai review cho san pham nay' });
 
-  res.status(200).json({ message: 'Find review success', doc });
+  res.status(200).render('./manage_admin/updateReview', {
+    title: 'Cập nhật bình luận',
+    doc,
+  });
 };
 // them
 exports.addProductReview = async (req, res, next) => {

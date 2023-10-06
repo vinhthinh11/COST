@@ -1,16 +1,12 @@
 const express = require('express');
 const reviewProductController = require('../controllers/reviewProductController');
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 router
-  .route('/:id')
+  .route('/')
   .post(reviewProductController.addProductReview)
-  .get(reviewProductController.findProductReview)
+  .get(reviewProductController.getReviewProduct)
   .patch(reviewProductController.updateProductReview)
   .delete(reviewProductController.deleteProductReview);
 
-router
-  .route('/')
-  // khi ma add review cho 1 tour thi id ad merge vao trong req nen se khong tim thay dia chi phia tren
-  .get(reviewProductController.findProductReview);
 module.exports = router;
