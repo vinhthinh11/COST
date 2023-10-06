@@ -44,17 +44,15 @@ exports.findAllProduct = async (req, res, next) => {
 exports.addProduct = async (req, res, next) => {
   const doc = await Product.create(req.body);
   if (!doc)
-    return res.status(404).json({ message: 'tao san pham khong thanh cong' });
+    return res.status(404).json({ message: 'Tạo sản phẩm không thành công' });
 
   res.status(200).json({ message: 'Add product success', doc });
 };
 // sua
 exports.updateProduct = async (req, res, next) => {
-  const doc = await Product.findByIdAndUpdate(res.params.id, req.body);
+  const doc = await Product.findByIdAndUpdate(req.params.id, req.body);
   if (!doc)
-    return res
-      .status(404)
-      .json({ message: 'khong tim thay san pham de cap nhat' });
+    return res.status(404).json({ message: 'Product not found to update' });
 
   res.status(200).json({ message: 'Update product success', doc });
 };

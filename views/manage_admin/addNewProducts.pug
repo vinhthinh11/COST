@@ -3,22 +3,30 @@ block forManage
   .user-view__content
     .user-view__form-container
       h2.heading-secondary.ma-bt-md Add new Product
-      form.form.form-user-data
+      form.form(class=`${product?"formAddProduct":"formUpdateProduct"}`)
         .form__group
           label.form__label(for='name') Tên sản phẩm
-          input#name.form__input(type='text' required name='name')
+          input#name.form__input.product(type='text' required name='name' value=`${product?product.name:""}`)
         .form__group.ma-bt-md
           label.form__label(for='quantity') Số lượng
-          input#quantity.form__input(type='number', required name='quantity')
+          input#quantity.form__input.product(type='number', required name='quantity' value=`${product?product.quantity:""}`)
         .form__group.ma-bt-md
           label.form__label(for='unit') Đơn vị tính
-          input#unit.form__input(type='text', required name='unit')
+          input#unit.form__input.product(type='text', required name='unit' value=`${product?product.unit:""}`)
         .form__group.ma-bt-md
           label.form__label(for='price') Giá sản phẩm
-          input#price.form__input(type='number', required name='price')
+          input#price.form__input.product(type='number', required name='price' value=`${product?product.price:""}`)
+        .form__group.ma-bt-md
+          label.form__label(for='description') Miêu tả sản phẩm
+          textarea#description.form__input.product(type='number', required name='description' cols="30", rows="10")=`${product?product.description:""}`
         .form__group.form__photo-upload
-          img.form__user-photo(src=`/img/product/default.png`, alt='product photo')
-          input.form__upload#imageUrl(type="file" name='imageUrl' accept='image/*')
+          img.form__user-photo(src=`/img/product/${product?product.imageUrl:"default.png"}`, alt='product photo')
+          if product
+            input.form__upload#imageUrl(type="file" name='imageUrl' accept='image/*')
+          else
+            input.form__upload#imageUrl(type="file" name='imageUrl' required accept='image/*')
           label(for="imageUrl") Hình ảnh
         .form__group.right
-          button.btn.btn--small.btn--green Thêm mới
+          input#productId(type="hidden" value=`${product?product.id:""}`)
+          button.btn.btn--small.btn--green= product?"Cập nhật":"Thêm mới"
+  script(src="/js/addProduct.js" type="module") 

@@ -5,7 +5,11 @@ const router = express.Router();
 router
   .route('/:id')
   .get(productController.findProduct)
-  .patch(productController.updateProduct)
+  .patch(
+    productController.uploadProductUrl,
+    productController.resizeProductUrl,
+    productController.updateProduct
+  )
   .delete(productController.deleteProduct);
 
 router

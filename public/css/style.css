@@ -466,6 +466,9 @@ input::-webkit-inner-spin-button {
   padding: 1rem 2rem;
   color: #545454;
 }
+.product {
+  border: 1px solid #777 !important;
+}
 .product_quantity_input {
   display: flex;
   justify-content: space-around;
