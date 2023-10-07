@@ -6,6 +6,7 @@ const APIFeature = require('../utils/ApiFreature');
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
+    // const doc = await Model.findById(req.params.id);
     if (!doc) {
       throw new AppError(404, "Can't find the doc");
     }
@@ -18,6 +19,11 @@ exports.createOne = Model =>
   });
 exports.updateOne = Model =>
   catchAsync(async (req, res, next) => {
+    // xu ly khi ma nguoi dung gui form toi thi cac gia tri luon o dang string khong dung trong database
+    // ==> phai xui ly voi cac truong khac string
+    if (req.body.active) {
+      req.body.active = req.body.active === 'true';
+    }
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,

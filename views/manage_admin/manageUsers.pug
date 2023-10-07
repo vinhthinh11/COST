@@ -25,4 +25,5 @@ block forManage
         td
           a(class='btn btn--green btn--tiny' href=`/users/update/${user._id}`) Update 
         td 
-          a(class='btn btn--red btn--tiny' href=`/users/delete/${user._id}`) Delete
+          a(class='btn btn--red btn--tiny' id='delete' href=`/api/v1/userProduct/${user._id}`) Delete
+  script(src="/js/userHandler.js" type="module") 

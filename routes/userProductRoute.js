@@ -16,5 +16,12 @@ router
     userProductController.removeBodyPassword,
     userProductController.updateMe
   );
+router.patch(
+  '/:id',
+  userProductController.uploadUserPhoto,
+  userProductController.resizeUserPhoto,
+  userProductController.updateMe
+);
+router.delete('/:id', userProductController.deleteUser);
 
 module.exports = router;

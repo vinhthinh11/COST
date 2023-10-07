@@ -1572,3 +1572,20 @@ td {
   background: #1d81f2;
   cursor: pointer;
 }
+.inline {
+  display: flex;
+}
+.inline > * {
+  flex: 1;
+  margin-bottom: 2rem;
+}
+.active_radio {
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+  align-items: center;
+}
+.active_radio * {
+  width: 50px;
+  min-height: 20px;
+}

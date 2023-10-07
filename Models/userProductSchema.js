@@ -61,10 +61,6 @@ userProduct.pre('save', async function (next) {
   this.passwordConfirm = undefined;
   next();
 });
-userProduct.pre(/^find/, function (next) {
-  this.find({ active: { $ne: false } });
-  next();
-});
 userProduct.methods.createPasswordToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
   this.resetPasswordToken = crypto

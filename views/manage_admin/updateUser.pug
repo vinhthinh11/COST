@@ -4,10 +4,10 @@ block forManage
     .user-view__form-container
       h2.heading-secondary.ma-bt-md= title
       div
-        img.updateInfo(src=`/img/users/${doc.photo}`, alt="product image")
+        img.updateInfo(src=`/img/users/${doc.photo}`, alt="user-image")
         label.form__label.updatePhotoUser(for='photo') Change avatar
         input#photo.form__upload.product.photo(type='file')
-      form.form(class=`${doc?"formUpdateReview":"formAddReview"}`)
+      form.form(class=`${doc?"formUpdateUser":"formAddUser"}`)
         .form__group
           label.form__label(for='name') Tên người dùng
           input#name.form__input.product(type='text' required name='name' value=`${doc?doc.name:""}`)
@@ -18,10 +18,27 @@ block forManage
           label.form__label(for='role') Role
           select#role.form__input.product
             option(value="user" ) User
-            -if(doc.role == 'admin')
+            - if(doc.role == 'admin')
               option(value="admin" selected) Admin
-            option(value="admin") Admin
+            - else
+              option(value="admin") Admin
+        .form__group.inline
+          span.form__label(for='active') Tình trạng
+          if doc.active
+            .active_radio
+              input#active.form__input.product(type='radio' name='active' checked value='true')
+              |Active
+            .active_radio
+              input#active.form__input.product(type='radio' name='active' value='false')
+              |Unactive
+          else 
+            .active_radio
+              input#active.form__input.product(type='radio' name='active' value='true')
+              |Active
+            .active_radio
+              input#active.form__input.product(type='radio' name='active' checked value='false')
+              |Unactive
         .form__group.right
-          input#reviewId(type="hidden" value=`${doc?doc._id:""}`)
+          input#userId(type="hidden" value=`${doc?doc._id:""}`)
           button.btn.btn--small.btn--green= doc?"Cập nhật":"Thêm mới"
   script(src="/js/userHandler.js" type="module") 
