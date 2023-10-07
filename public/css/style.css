@@ -1566,6 +1566,7 @@ td {
   border-radius: 15px;
   text-align: center;
   font-weight: 100;
+  margin-top: 1rem;
 }
 .form__label.updatePhotoUser:hover {
   background: #1d81f2;
