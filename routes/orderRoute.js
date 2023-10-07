@@ -5,6 +5,7 @@ const router = express.Router();
 router
   .route('/:id')
   .get(orderController.findOrder)
+  .post(orderController.getCheckoutSession)
   .patch(orderController.updateOrder)
   .delete(orderController.deleteOrder);
 

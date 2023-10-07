@@ -22,8 +22,8 @@ block content
       div.product_description
         span Price:
         span.overview-box__tex= `${product.price} đồng`
-      a.btn_price.add_to_cart(href="#") Add to card 
-      a.btn_price.buy_now(href="#") Buy now
+      a.btn_price.add_to_cart#addToCart(href="#") Add to card 
+      a.btn_price.buy_now#buyNow(href="#") Buy now
     .header__normal
       h1.card_review.headerReview Customer Reviews
       each review in reviews
@@ -39,18 +39,5 @@ block content
                   use(xlink:href='/img/icons.svg#icon-star-rating')
         .userComment.card_review
           span= review.review
-  script.
-    const inputValue = document.getElementById('product_quantity');
-    const max = inputValue.max;
-    const increase = document.getElementById('plus');
-    increase.addEventListener('click', e => {
-      if(+inputValue.value<max) {
-      inputValue.value = +inputValue.value + 1;
-    }
-    });
-    const decrease = document.getElementById('minus');
-    decrease.addEventListener('click', e => {
-      if(inputValue.value>1) {
-      inputValue.value = +inputValue.value +-1;
-      }
-    });
+  script(src="/js/detailProduct.js" type="module") 
+ 
