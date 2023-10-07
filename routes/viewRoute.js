@@ -4,12 +4,14 @@ const authController = require('../controllers/authController');
 const bookingController = require('../controllers/bookingController');
 const viewProductRoute = require('./viewProductRoute');
 const reviewProductRoute = require('./reviewProductRoute');
+const userProductRoute = require('./userProductRoute');
 
 const router = express.Router();
 
 //load index page
 router.get('/', viewProductRoute);
 router.use('/reviews/:id', reviewProductRoute);
+router.use('/users/update/:id', userProductRoute);
 router.get('/constructing', viewController.getConstructing);
 router.get(
   '/tour/:id',

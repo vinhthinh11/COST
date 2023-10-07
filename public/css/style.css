@@ -1553,3 +1553,21 @@ td {
   font-size: 1.5rem;
   text-transform: uppercase;
 }
+.updateInfo {
+  height: 150px;
+  object-fit: contain;
+  border-radius: 20px;
+}
+.form__label.updatePhotoUser {
+  background: #1da1f2;
+  color: #fff;
+  width: fit-content;
+  padding: 10px 20px;
+  border-radius: 15px;
+  text-align: center;
+  font-weight: 100;
+}
+.form__label.updatePhotoUser:hover {
+  background: #1d81f2;
+  cursor: pointer;
+}

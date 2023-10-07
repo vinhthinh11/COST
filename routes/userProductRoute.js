@@ -2,18 +2,13 @@ const express = require('express');
 const userProductController = require('../controllers/userProductController');
 const authController = require('../controllers/authController');
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 //rote under here is for Admin
 router
-  .route('/:id')
-  .get(userProductController.findUser)
-  .delete(userProductController.deleteUser);
-
-router
   .route('/')
+  .get(userProductController.getUser)
   .post(userProductController.addUser)
-  .get(userProductController.getAllUsers)
   .patch(
     authController.protect,
     userProductController.uploadUserPhoto,

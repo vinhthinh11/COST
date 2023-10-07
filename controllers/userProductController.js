@@ -41,11 +41,13 @@ exports.removeBodyPassword = (req, res, next) => {
 };
 
 // tim
-exports.findUser = async (req, res, next) => {
+exports.getUser = async (req, res, next) => {
   const doc = await UserProduct.findById(req.params.id);
   if (!doc) return res.status(404).json({ message: 'san pham khong ton tai' });
-
-  res.status(200).json({ message: 'Find product success', doc });
+  res.status(200).render('./manage_admin/updateUser', {
+    title: 'Cập nhật thông tin người dùng',
+    doc,
+  });
 };
 exports.getAllUsers = async (req, res, next) => {
   const doc = await UserProduct.find();
