@@ -17,7 +17,7 @@ const orderSchema = new Schema(
           required: true,
           ref: 'Product',
         },
-        quantity: { type: Number },
+        quantity: { type: Number, default: 1 },
       },
     ],
     totalPrice: { type: Number, default: 0 },

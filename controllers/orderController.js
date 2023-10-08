@@ -20,9 +20,9 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
             name: doc.name,
             description: doc.description,
             images: [
-              'https://statics.vinpearl.com/chua-linh-ung-da-nang-3.jpg',
-              'https://ladybuddha.org/images/linh-ung-pagoda-01.jpg',
-              'https://ladybuddha.org/images/linh-ung-pagoda-03.jpg',
+              `${req.protocol}://${req.get('host')}/img/products/${
+                doc.imageUrl
+              }`,
             ],
           },
           unit_amount: doc.price,
@@ -59,11 +59,11 @@ const createOrder = async session => {
   const product = session.client_reference_id;
   const user = (await UserProduct.findOne({ email: session.customer_email }))
     ._id;
-  const quantity = session.display_items[0].quantity;
+  // const quantity = session.display_items[0].quantity;
   await Order.create({
     user,
     address: '124 Trần Phú,Đà Nẵng',
-    products: { product, quantity },
+    products: { product },
   });
 };
 exports.webhookOrder = async (req, res, next) => {
