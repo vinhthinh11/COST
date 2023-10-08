@@ -59,7 +59,7 @@ const createOrder = async session => {
   const product = session.client_reference_id;
   const user = (await UserProduct.findOne({ email: session.customer_email }))
     ._id;
-  const quantity = session.line_items.quantity;
+  const quantity = session.display_items[0].quantity;
   await Order.create({
     user,
     address: '124 Trần Phú,Đà Nẵng',
@@ -67,8 +67,7 @@ const createOrder = async session => {
   });
 };
 exports.webhookOrder = async (req, res, next) => {
-  const endpointSecret =
-    'whsec_4762052c815487e29e674e987687d322c29638ed7e58c73937684069c2bb3948';
+  const endpointSecret = 'whsec_JkvuNVLwaIh9FrBQz6MCtD8Zxz4N8B4C';
   const sig = req.headers['stripe-signature'];
 
   let event;
