@@ -18,11 +18,12 @@ decrease.addEventListener('click', e => {
     inputValue.value = +inputValue.value + -1;
   }
 });
-const orderProduct = async function (url) {
+const orderProduct = async function (url, data) {
   try {
     const session = await axios({
-      method: 'GET',
+      method: 'POST',
       url,
+      data,
     });
     await stripe.redirectToCheckout({
       sessionId: session.data.session.id,
@@ -37,10 +38,12 @@ const btnBuyNow = document.getElementById('buyNow');
 if (btnBuyNow)
   btnBuyNow.addEventListener('click', e => {
     e.preventDefault();
-    const data = { quanity: document.getElementById('product_quantity').value };
+    const data = {
+      quantity: document.getElementById('product_quantity').value,
+    };
     const productId = window.location.href.split('/').slice(-1);
     const url = '/api/v1/orders/' + productId;
-    orderProduct(url);
+    orderProduct(url, data);
   });
 const addToCart = document.getElementById('addToCart');
 if (addToCart)

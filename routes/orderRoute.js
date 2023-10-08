@@ -5,7 +5,7 @@ const authController = require('../controllers/authController');
 const router = express.Router();
 router
   .route('/:id')
-  .get(authController.protect, orderController.getCheckoutSession)
+  .post(authController.protect, orderController.getCheckoutSession)
   .patch(orderController.updateOrder)
   .delete(orderController.deleteOrder);
 

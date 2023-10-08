@@ -8,6 +8,7 @@ const catchAsync = require('../utils/catchAsync');
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1> Get the current book tour
   const doc = await Product.findById(req.params.id);
+  console.log(req.body.quantity);
   // // 2> Create checkout session
   const session = await stripe.checkout.sessions.create({
     success_url: `${req.protocol}://${req.get('host')}`,
@@ -26,7 +27,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
           },
           unit_amount: doc.price,
         },
-        quantity: 1,
+        quantity: req.body.quantity,
       },
     ],
     mode: 'payment',
