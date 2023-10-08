@@ -1,5 +1,8 @@
 /*eslint-disable*/
 import { showAlert } from './alert.js';
+const stripe = Stripe(
+  'pk_test_51NylCBK3xDlkPhqbIkySX3qPheBlr5O22n5pxKrShQWALPot6aJrXKy3DGgfFUZfB5BZSKsUjVhNocCUb09UKlN000ckyZ120C'
+);
 
 const inputValue = document.getElementById('product_quantity');
 const max = inputValue.max;
@@ -15,21 +18,17 @@ decrease.addEventListener('click', e => {
     inputValue.value = +inputValue.value + -1;
   }
 });
-const orderProduct = async function (url, data) {
+const orderProduct = async function (url) {
   try {
-    const res = await axios.post(url, {
-      data,
+    const session = await axios({
+      method: 'GET',
+      url,
     });
-    // neu dang nhap thanh cong thi chuyen qua trang hompage
-    if (res.status === 200) {
-      showAlert('success', 'Xoá người dùng thành công');
-      setTimeout(function () {
-        location.reload(true);
-      }, 1500);
-    } else {
-      showAlert('error', 'Xoá người dùng thất bại');
-    }
+    await stripe.redirectToCheckout({
+      sessionId: session.data.session.id,
+    });
   } catch (errors) {
+    console.log(errors.response.data.message);
     showAlert('error', errors.response.data.message);
   }
 };
@@ -41,7 +40,7 @@ if (btnBuyNow)
     const data = { quanity: document.getElementById('product_quantity').value };
     const productId = window.location.href.split('/').slice(-1);
     const url = '/api/v1/orders/' + productId;
-    orderProduct(url, data);
+    orderProduct(url);
   });
 const addToCart = document.getElementById('addToCart');
 if (addToCart)

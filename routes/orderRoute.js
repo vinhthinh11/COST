@@ -1,11 +1,11 @@
 const express = require('express');
 const orderController = require('../controllers/orderController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 router
   .route('/:id')
-  .get(orderController.findOrder)
-  .post(orderController.getCheckoutSession)
+  .get(authController.protect, orderController.getCheckoutSession)
   .patch(orderController.updateOrder)
   .delete(orderController.deleteOrder);
 
