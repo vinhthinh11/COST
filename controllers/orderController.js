@@ -3,12 +3,12 @@ const stripe = require('stripe')(
 );
 const Order = require('../Models/orderSchema');
 const Product = require('../Models/productSchema');
+const UserProduct = require('../Models/userProductSchema');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1> Get the current book tour
   const doc = await Product.findById(req.params.id);
-  console.log(req.body.quantity);
   // // 2> Create checkout session
   const session = await stripe.checkout.sessions.create({
     success_url: `${req.protocol}://${req.get('host')}`,
@@ -41,16 +41,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: 'success', session });
 });
 
-exports.createBookingCheckout = async (req, res, next) => {
-  const { tour, user, price } = req.query;
-  if (tour && user && price) {
-    // tao record booking
-    await Order.create({ tour, user, price });
-    return res.redirect(req.originalUrl.split('?')[0]);
-  }
-  next();
-};
-
 exports.findOrder = async (req, res, next) => {
   const doc = await Order.findById(req.params.id);
   if (!doc) return res.status(404).json({ message: 'san pham khong ton tai' });
@@ -65,12 +55,46 @@ exports.findAllOrder = async (req, res, next) => {
   res.status(200).json({ message: 'Find Order success', doc });
 };
 // them
-exports.addOrder = async (req, res, next) => {
-  const doc = await Order.create(req.body);
-  if (!doc)
-    return res.status(404).json({ message: 'tao san pham khong thanh cong' });
+const createOrder = async session => {
+  const product = session.client_reference_id;
+  const user = (await UserProduct.findOne({ email: session.customer_email }))
+    ._id;
+  const quantity = session.line_items.quantity;
+  await Order.create({
+    user,
+    address: '124 Trần Phú,Đà Nẵng',
+    products: { product, quantity },
+  });
+};
+exports.webhookOrder = async (req, res, next) => {
+  const endpointSecret =
+    'whsec_4762052c815487e29e674e987687d322c29638ed7e58c73937684069c2bb3948';
+  const sig = req.headers['stripe-signature'];
 
-  res.status(200).json({ message: 'Add Order success', doc });
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+  } catch (err) {
+    res.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+
+  // Handle the event
+  switch (event.type) {
+    case 'checkout.session.completed':
+      // eslint-disable-next-line no-case-declarations
+      const checkoutSessionCompleted = event.data.object;
+      createOrder(checkoutSessionCompleted);
+      // Then define and call a function to handle the event checkout.session.completed
+      break;
+    // ... handle other event types
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  res.send();
 };
 // sua
 exports.updateOrder = async (req, res, next) => {

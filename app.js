@@ -16,6 +16,7 @@ const userRoute = require('./routes/userRoute');
 const reviewRoute = require('./routes/reviewRoute');
 const viewRoute = require('./routes/viewRoute');
 const bookingRoute = require('./routes/bookingRoute');
+const orderController = require('./controllers/orderController');
 
 const AppError = require('./utils/AppError');
 const ErrorGlobalHandler = require('./controllers/ErrorGlobalHandler');
@@ -53,6 +54,11 @@ const limmiter = rateLimit({
     'Too many requests from this IP, please try again in one hour later.',
 });
 app.use('/api', limmiter);
+app.post(
+  '/webhook-order/',
+  express.raw({ type: 'application/json' }),
+  orderController.webhookOrder
+);
 // body parse( reading data from body)
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
