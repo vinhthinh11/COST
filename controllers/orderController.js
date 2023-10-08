@@ -20,14 +20,19 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
             name: doc.name,
             description: doc.description,
             images: [
-              `${req.protocol}://${req.get('host')}/img/products/${
+              `${req.protocol}://${req.get('host')}/img/product/${
                 doc.imageUrl
               }`,
             ],
           },
           unit_amount: doc.price,
         },
-        quantity: req.body.quantity,
+        adjustable_quantity: {
+          enabled: true,
+          minimum: 1,
+          maximum: doc.quantity,
+        },
+        quantity: 1,
       },
     ],
     mode: 'payment',
@@ -35,7 +40,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       req.params.id
     }`,
     customer_email: req.user.email,
-    client_reference_id: req.params.id,
+    client_reference_id: `${req.params.id}::${req.body.quantity}`,
   });
   // 3> Send it to client
   res.status(200).json({ status: 'success', session });
@@ -56,14 +61,14 @@ exports.findAllOrder = async (req, res, next) => {
 };
 // them
 const createOrder = async session => {
-  const product = session.client_reference_id;
+  const product = session.client_reference_id.split('::')[0];
   const user = (await UserProduct.findOne({ email: session.customer_email }))
     ._id;
-  // const quantity = session.display_items[0].quantity;
+  const quantity = +session.client_reference_id.split('::')[1];
   await Order.create({
     user,
     address: '124 Trần Phú,Đà Nẵng',
-    products: { product },
+    products: { product, quantity },
   });
 };
 exports.webhookOrder = async (req, res, next) => {
