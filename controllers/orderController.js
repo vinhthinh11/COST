@@ -35,7 +35,8 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       req.params.id
     }`,
     customer_email: req.user.email,
-    client_reference_id: `${req.params.id}::${req.body.quantity}`,
+    // client_reference_id: `${req.params.id}::${req.body.quantity}`,
+    client_reference_id: req.params.id,
   });
   // 3> Send it to client
   res.status(200).json({ status: 'success', session });
@@ -56,10 +57,11 @@ exports.findAllOrder = async (req, res, next) => {
 };
 // them
 const createOrder = async session => {
-  const product = session.client_reference_id.split('::')[0];
+  const product = session.client_reference_id;
   const user = (await UserProduct.findOne({ email: session.customer_email }))
     ._id;
-  const quantity = +session.client_reference_id.split('::')[1];
+  const quantity = session.line_items[0].quantity;
+  const address = session;
   await Order.create({
     user,
     address: '124 Trần Phú,Đà Nẵng',
@@ -93,10 +95,7 @@ exports.webhookOrder = async (req, res, next) => {
           expand: ['line_items'],
         }
       );
-      const lineItems = sessionWithLineItems.line_items;
-      result = lineItems;
-      fulfillOrder(lineItems);
-      // createOrder(checkoutSessionCompleted);
+      createOrder(sessionWithLineItems);
       // Then define and call a function to handle the event checkout.session.completed
       break;
     // ... handle other event types
@@ -105,7 +104,7 @@ exports.webhookOrder = async (req, res, next) => {
   }
 
   // Return a 200 response to acknowledge receipt of the event
-  res.status(200).json({ result });
+  res.send();
 };
 // sua
 exports.updateOrder = async (req, res, next) => {
