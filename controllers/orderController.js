@@ -35,8 +35,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       req.params.id
     }`,
     customer_email: req.user.email,
-    // client_reference_id: `${req.params.id}::${req.body.quantity}`,
-    client_reference_id: req.params.id,
+    client_reference_id: `${req.params.id}::${req.body.quantity}`,
   });
   // 3> Send it to client
   res.status(200).json({ status: 'success', session });
@@ -57,11 +56,10 @@ exports.findAllOrder = async (req, res, next) => {
 };
 // them
 const createOrder = async session => {
-  const product = session.client_reference_id;
+  const product = session.client_reference_id.split('::')[0];
   const user = (await UserProduct.findOne({ email: session.customer_email }))
     ._id;
-  const quantity = session.line_items[0].quantity;
-  const address = session;
+  const quantity = +session.client_reference_id.split('::')[1];
   await Order.create({
     user,
     address: '124 Trần Phú,Đà Nẵng',
@@ -80,22 +78,13 @@ exports.webhookOrder = async (req, res, next) => {
     res.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
-  let result;
-  const fulfillOrder = lineItems => {
-    // TODO: fill me in
-    console.log('Fulfilling order', lineItems);
-  };
+
   // Handle the event
   switch (event.type) {
     case 'checkout.session.completed':
       // eslint-disable-next-line no-case-declarations
-      const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-        event.data.object.id,
-        {
-          expand: ['line_items'],
-        }
-      );
-      createOrder(sessionWithLineItems);
+      const checkoutSessionCompleted = event.data.object;
+      createOrder(checkoutSessionCompleted);
       // Then define and call a function to handle the event checkout.session.completed
       break;
     // ... handle other event types
