@@ -27,12 +27,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
           },
           unit_amount: doc.price,
         },
-        adjustable_quantity: {
-          enabled: true,
-          minimum: 1,
-          maximum: doc.quantity,
-        },
-        quantity: 1,
+        quantity: req.body.quantity,
       },
     ],
     mode: 'payment',
@@ -83,13 +78,25 @@ exports.webhookOrder = async (req, res, next) => {
     res.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
-
+  let result;
+  const fulfillOrder = lineItems => {
+    // TODO: fill me in
+    console.log('Fulfilling order', lineItems);
+  };
   // Handle the event
   switch (event.type) {
     case 'checkout.session.completed':
       // eslint-disable-next-line no-case-declarations
-      const checkoutSessionCompleted = event.data.object;
-      createOrder(checkoutSessionCompleted);
+      const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
+        event.data.object.id,
+        {
+          expand: ['line_items'],
+        }
+      );
+      const lineItems = sessionWithLineItems.line_items;
+      result = lineItems;
+      fulfillOrder(lineItems);
+      // createOrder(checkoutSessionCompleted);
       // Then define and call a function to handle the event checkout.session.completed
       break;
     // ... handle other event types
@@ -98,7 +105,7 @@ exports.webhookOrder = async (req, res, next) => {
   }
 
   // Return a 200 response to acknowledge receipt of the event
-  res.send();
+  res.status(200).json({ result });
 };
 // sua
 exports.updateOrder = async (req, res, next) => {
