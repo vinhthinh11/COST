@@ -3,6 +3,8 @@ const path = require('path');
 const rateLimit = require('express-rate-limit'); //chan user req too many times per second
 const helmet = require('helmet'); //chan ben thu 3 tan cong trang web va setting 1 so header tu dong cho trang web
 const express = require('express');
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
 const morgan = require('morgan');
 const mongooseSanitize = require('express-mongo-sanitize');
 const hpp = require('hpp');
@@ -22,7 +24,17 @@ const AppError = require('./utils/AppError');
 const ErrorGlobalHandler = require('./controllers/ErrorGlobalHandler');
 
 const app = express();
-
+const server = createServer(app);
+const io = new Server(server);
+io.on('connection', socket => {
+  console.log('a user connected');
+  socket.on('toAdmin', (msg, image) => {
+    io.emit('toAdmin', msg, image);
+  });
+  socket.on('toUser', (msg, image) => {
+    io.emit('toUser', msg, image);
+  });
+});
 //setting viewtemplates for app to use
 app.set('view engine', 'pug');
 //setting duong dan de load templates
@@ -106,4 +118,4 @@ app.all('*', (req, res, next) => {
 // error handling when next(err)
 app.use(ErrorGlobalHandler.ErrorHandler);
 
-module.exports = app;
+module.exports = server;

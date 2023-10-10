@@ -31,3 +31,15 @@ block content
                 svg.card__icon
                   use(xlink:href='img/icons.svg#icon-shopping-cart')
               a.btn.btn--green.btn--small(href=`products/${product._id}`) Mua
+  .chat-button--img#chatbox
+    img(src="https://vcdn.subiz-cdn.com/file/bubble_08.svg" alt="chat button")
+  .container-chat.active
+    .grp-info
+      h3.grp-name
+        | Chat với admin
+    .chatbox
+      
+    form#form-chatbox(action='')
+      input#input-chatbox(type='text' autocomplete='off')
+    .send-ico
+      i.fas.fa-paper-plane(style='position:absolute;')
